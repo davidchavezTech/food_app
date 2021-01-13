@@ -1,0 +1,158 @@
+/* @font-face {
+    font-family: robottoT;
+    src: url(../fonts/Roboto-Thin.ttf);
+  } */
+  
+  body {
+    /* font-family: robottoT; */
+    margin: 0;
+    background-color: #191516;
+  }
+  
+  .centerIt {
+    text-align: center;
+    text-align: -webkit-center;
+  }
+  
+  button {
+    /*display: none;*/
+    border-radius: 50px;
+    background-color: #d00f0f;
+    border: none;
+    color: white;
+    -webkit-box-shadow: 10px 10px 11px -8px rgba(0,0,0,0.75);
+  -moz-box-shadow: 3px 3px 11px -8px rgba(0,0,0,0.75);
+  box-shadow: 3px 3px 11px -8px rgba(0,0,0,1);
+    padding: 10px 40px;
+    margin-top: 20px;
+  }
+  
+  .indexBods {
+    background-position: center top;
+    display: inline-block;
+    position: relative;
+    height: 800px;
+    width: 100%;
+    background-image: url("../img/burgerIndex.jpg");
+    background-repeat: no-repeat;
+  }
+  
+  .container {
+    position: absolute;
+    bottom: 0;
+    /*left: calc(50% - 180px);*/
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    /*width: 360px;*/
+    width: 100%;
+    background-color: #b40808;
+    border-radius: 60px 60px 0 0;
+    -webkit-transform: translateY(60px);
+            transform: translateY(60px);
+  }
+  
+  .logo {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    margin-bottom: 0px;
+    margin-top: 20px;
+  }
+  
+  .pseudoLogo {
+    margin-right: 20px;
+  }
+  
+  input {
+    background-color: #b40808;
+    border: solid 1px white;
+    color: white;
+    border-radius: 50px;
+    padding: 8px 15px;
+    margin-top: 20px;
+  }
+  
+  input::-webkit-input-placeholder {
+    color: #ea4141;
+  }
+  
+  input:-ms-input-placeholder {
+    color: #ea4141;
+  }
+  
+  input::-ms-input-placeholder {
+    color: #ea4141;
+  }
+  
+  input::placeholder {
+    color: #ea4141;
+  }
+  
+  input:focus {
+    outline: none;
+  }
+  
+  p {
+    color: #f5dd10;
+  }
+  
+  a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .socialMedia {
+    height: 100px;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: space-evenly;
+        -ms-flex-pack: space-evenly;
+            justify-content: space-evenly;
+    width: 360px;
+  }
+  
+  .f {
+    width: 20px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  
+  .insta {
+    width: 20px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  
+  .w {
+    width: 20px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+  
+  .congrats {
+    text-align: center;
+    margin-bottom: -5px;
+    color: white;
+    background-color: #c64242;
+    width: 320px;
+    padding: 20px;
+  }
+  /*# sourceMappingURL=indexStyle.css.map */
+  /* -------------------------gps------------------------------- */
+  /* #map{
+    height:500px;
+    width:100%;
+  } */
+  #mapid { height: 180px; }

@@ -1,0 +1,6 @@
+npm install <package-name> --save-dev
+
+//Console log cust colors
+"%c%s", 'background: #222; color: #bada55', variable
+//or
+"%c%s", 'background: #222; color: #bada55', 'text'

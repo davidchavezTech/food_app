@@ -1,0 +1,12 @@
+
+    {{#each ordenes}}
+    <div style="margin:10px;background-color:red;">
+        <p>ID de usuario: {{user_ID}}</p>
+        <p>Cliente: {{cliente}}</p>
+        <p>{{timeago fecha}}</p>
+        <a href="/delete/{{id}}">Delete</a>
+        <a href="/edit/{{id}}">Editar</a>
+    </div>
+    {{else}}
+        <p>No hay ordenes todavia, <a href="/shopping-cart">¿Genera una?</a></p>
+    {{/each}}

@@ -1,0 +1,29 @@
+<h1 style="color:black;">Upload</h1>
+
+<button id="hi">UPLOAD</button>
+<form action="" method="POST" enctype="multipart/form-data" style="color:black;">
+    <input type="file" name="image">
+     <button type='submit'>UPLOAD</button>
+ </form>
+<div class="container2">
+    <p class="draggable" draggable="true">1</p>
+    <p class="draggable" draggable="true">2</p>
+
+    <p class="draggable" draggable="true">3</p>
+    <p class="draggable" draggable="true">4</p>
+</div>
+
+<canvas id="testCanvas" width="300" height="300" style="border: 1px solid black;" >Your browser does not support canvas.</canvas>
+		
+		<br />
+		<!-- Below are a series of inputs which allow file selection and interaction with the cropper api -->
+		<input type="file" id="fileInput" name="image" onchange="handleFileSelect()" />
+		<input type="button" onclick="cropper.startCropping()" value="Start cropping" />
+		<input type="button" onclick="cropper.getCroppedImageSrc()" value="Crop" />
+		<input type="button" onclick="cropper.restore()" value="Restore" />
+
+
+    
+    <button type='submit'>UPLOAD</button>
+</form>
+<script src="js/admin-add.js"></script>

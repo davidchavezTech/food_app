@@ -1,0 +1,28 @@
+<div class="dish-main-image">
+    
+    <img src="/img/cat-images/cat-1-images/{{dishes.dish_image}}" class="dish-main-pic">
+    <div class="white-backdrop"><br><br><br>
+        <p class="center-text-horizontally"><img class="like-counter-heart"src="img/red_heart.svg">&nbsp;{{dishes.likes}} Likes&nbsp;&nbsp;|</p>
+    </div>
+</div>
+<div class="white-fill" like="{{like_status}}">
+    <img class="broken-heart" src="img/broken-heart.svg">
+    <img class="whole-heart" src="img/heart.svg">
+    <div class="dish-upper-part">
+        <div style="margin-left:20px">
+            <p class="dish-price-cont"><b>$<span class="dish-price" id="dish-price">{{dishes.price}}</span></b></p>
+            <p class="dish-dish-title" id="dish-name">{{dishes.dish_title}}</p>
+        </div>
+        <div class="dish-counter">
+            <div class="dish-button"><b>-</b></div>
+            <b><p class="dish-quantity">&nbsp;&nbsp;&nbsp;<span id="dish-quantity">1</span>&nbsp;&nbsp;&nbsp;</p></b>
+            <div class="dish-button"><b>+</b></div>
+        </div>
+    </div>
+    <b><p class="dish-description">{{dishes.dish_description}}
+    </p></b>
+</div>
+<div class="add-to-cart-button">
+        <b>Total </b>
+</div>
+<script src="js/dishes.js"></script>

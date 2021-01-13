@@ -1,0 +1,79 @@
+<div class="noodles">
+    <div class="lighten blurr">
+        {{#each categories}}
+            {{#isEqualToOne order_number}}
+                    {{#if answer}}
+                        <a href="#" class="category-container" id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}">
+                            <div class='images-cont'>
+                                <img class="cat-style-1-img1" src="img/cat-images/cat-style-1-img1.jpg">
+                                <img class="cat-style-1-img2" src="img/cat-images/cat-style-1-img2.jpg">
+                                <img class="cat-style-1-template-left" src="img/cat-images/cat-style-1-template-left.png">
+                                <img class="cat-style-1-template-right" src="img/cat-images/cat-style-1-template-right.png">
+                                <img class="cat-style-1-template-dot-left dot" style="display:none" src="img/edit-dot.svg">
+                                <img class="cat-style-1-template-dot-right dot" style="display:none" src="img/edit-dot.svg">
+                                <div class="cat-text-container">
+                                    <p class="cat-title1" style="top: 7px; left:105px;">{{../Title}}</p>
+                                    <p class="cat-subtitle1" style="top: 75px; left:90px;">{{../Subtitle}}</p>
+                                </div>
+                            </div>
+                        </a>
+                    {{/if}}
+            {{/isEqualToOne}}
+            {{#isEqualToTwo order_number}}
+                    {{#if answer}}
+                        <a href="#" class="category-container" id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}">
+                            <div class='images-cont'>
+                                <img class="cat-style-1-img1" src="img/cat-images/cat-style-2-img.jpg">
+                                <img class="cat-style-1-template-left" src="img/cat-images/cat-style-2-template.png">
+                                <img class="cat-style-2-template-dot-left dot" style="display:none" src="img/edit-dot.svg">
+                                <div class="cat-text-container-style-2">
+                                    <p class="cat-title2">{{../Title}}</p>
+                                    <p class="cat-subtitle2">{{../Subtitle}}</p>
+                                </div>
+                            </div>
+                        </a>
+                    {{/if}}
+            {{/isEqualToTwo}}
+            {{#isEqualToThree order_number}}
+                    {{#if answer}}
+                        <a href="#" class="category-container" id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}">
+                            <div class='images-cont'>
+                                <img class="cat-style-3-img" src="img/cat-images/cat-style-3-img.jpg">
+                                <img class="cat-style-1-template-left" src="img/cat-images/cat-style-3-template.png">
+                                <img class="cat-style-3-template-dot-right dot" style="display:none" src="img/edit-dot.svg">
+                                <div class="cat-text-container-style-3">
+                                    <p class="cat-title3">{{../Title}}</p>
+                                    <p class="cat-subtitle3">{{../Subtitle}}</p>
+                                </div>
+                            </div>
+                        </a>
+                    {{/if}}
+            {{/isEqualToThree}}
+            {{#isEqualToFour order_number}}
+                    {{#if answer}}
+                        <a href="#" class="category-container"  id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}">
+                            <div class='images-cont'>
+                                <img class="cat-style-4-img1" src="img/cat-images/cat-style-4-img1.jpg">
+                                <img class="cat-style-4-img2" src="img/cat-images/cat-style-4-img2.jpg">
+                                <img class="cat-style-4-img3" src="img/cat-images/cat-style-4-img3.jpg">
+                                <img class="cat-style-4-template" src="img/cat-images/cat-style-4-template.png">
+                                <img class="cat-style-4-template-dot-1 dot" style="display:none" src="img/edit-dot.svg">
+                                <img class="cat-style-4-template-dot-2 dot" style="display:none" src="img/edit-dot.svg">
+                                <img class="cat-style-4-template-dot-3 dot" style="display:none" src="img/edit-dot.svg">
+                                <div class="cat-text-container-style-4">
+                                    <p class="cat-title4">{{../Title}}</p>
+                                    <p class="cat-subtitle4">{{../Subtitle}}</p>
+                                </div>
+                            </div>
+                        </a>
+                    {{/if}}
+            {{/isEqualToFour}}
+        {{/each}}
+    <div class="edit-btn-spacer"></div>
+    </div>
+    <img src="img/edit.svg" class="editSVG">
+    <img src="img/camera.svg" class="cameraSVG">
+    <img src="img/move.svg" class="moveSVG">
+    <img src="img/add.svg" class="addSVG">
+    <img src="img/delete.svg" class="deleteSVG">
+<script src="js/admin-cat.js"></script>

@@ -1,0 +1,4 @@
+stock
+hide/publish
+llama animation for tutorial
+comments...enable auto show comments || require approval

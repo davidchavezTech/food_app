@@ -1,0 +1,57 @@
+<div class="noodles">
+    <div class="lighten blurr">
+        {{#each categories}}
+            {{#isEqualToOne order_number}}
+                    {{#if answer}}
+                        <a href="/cat-1" class="category-container">
+                            <img class="cat-style-1-img1" src="img/cat-images/cat-style-1-img1.jpg">
+                            <img class="cat-style-1-img2" src="img/cat-images/cat-style-1-img2.jpg">
+                            <img class="cat-style-1-template-left" src="img/cat-images/cat-style-1-template-left.png">
+                            <img class="cat-style-1-template-right" src="img/cat-images/cat-style-1-template-right.png">
+                            <div class="cat-text-container">
+                                <p class="cat-title1">{{../Title}}</p>
+                                <p class="cat-subtitle1">{{../Subtitle}}</p>
+                            </div>
+                        </a>
+                    {{/if}}
+            {{/isEqualToOne}}
+            {{#isEqualToTwo order_number}}
+                    {{#if answer}}
+                        <a href="/cat-2" class="category-container">
+                            <img class="cat-style-1-img1" src="img/cat-images/cat-style-2-img.jpg">
+                            <img class="cat-style-1-template-left" src="img/cat-images/cat-style-2-template.png">
+                            <div class="cat-text-container-style-2">
+                                <p class="cat-title2">{{../Title}}</p>
+                                <p class="cat-subtitle2">{{../Subtitle}}</p>
+                            </div>
+                        </a>
+                    {{/if}}
+            {{/isEqualToTwo}}
+            {{#isEqualToThree order_number}}
+                    {{#if answer}}
+                        <a href="/cat-3" class="category-container">
+                            <img class="cat-style-1-img2" src="img/cat-images/cat-style-3-img.jpg">
+                            <img class="cat-style-1-template-left" src="img/cat-images/cat-style-3-template.png">
+                            <div class="cat-text-container-style-3">
+                                <p class="cat-title3">{{../Title}}</p>
+                                <p class="cat-subtitle3">{{../Subtitle}}</p>
+                            </div>
+                        </a>
+                    {{/if}}
+            {{/isEqualToThree}}
+            {{#isEqualToFour order_number}}
+                    {{#if answer}}
+                        <a href="/cat-3" class="category-container">
+                            <img class="cat-style-4-img1" src="img/cat-images/cat-style-4-img1.jpg">
+                            <img class="cat-style-4-img2" src="img/cat-images/cat-style-4-img2.jpg">
+                            <img class="cat-style-4-img3" src="img/cat-images/cat-style-4-img3.jpg">
+                            <img class="cat-style-4-template" src="img/cat-images/cat-style-4-template.png">
+                            <div class="cat-text-container-style-4">
+                                <p class="cat-title4">{{../Title}}</p>
+                                <p class="cat-subtitle4">{{../Subtitle}}</p>
+                            </div>
+                        </a>
+                    {{/if}}
+            {{/isEqualToFour}}
+        {{/each}}
+    </div>
