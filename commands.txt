@@ -63,7 +63,8 @@ THEN PUSH:
 	
 First time push of the branch:
 	git push -u origin <name of the branch> - -u coordinates the two branches (local and on server)
-	
+	After we can just use git pull and then git push while on a branch because they are connected,
+    the local one and the remote one.
 Create a branch:
 	git branch <name of the branch>
 
