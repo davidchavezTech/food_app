@@ -3,7 +3,7 @@
         {{#each categories}}
             {{#isEqualToOne order_number}}
                     {{#if answer}}
-                        <a href="#" class="category-container" id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}">
+                        <a href="#" class="category-container" id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}" draggable="true">
                             <div class='images-cont'>
                                 <img class="cat-style-1-img1" src="img/cat-images/cat-style-1-img1.jpg">
                                 <img class="cat-style-1-img2" src="img/cat-images/cat-style-1-img2.jpg">
@@ -12,7 +12,7 @@
                                 <img class="cat-style-1-template-dot-left dot" style="display:none" src="img/edit-dot.svg">
                                 <img class="cat-style-1-template-dot-right dot" style="display:none" src="img/edit-dot.svg">
                                 <div class="cat-text-container">
-                                    <p class="cat-title1" style="top: 7px; left:105px;">{{../Title}}</p>
+                                    <p class="cat-title1" style="top: 7px; left:115px;">{{../Title}}</p>
                                     <p class="cat-subtitle1" style="top: 75px; left:90px;">{{../Subtitle}}</p>
                                 </div>
                             </div>
@@ -21,14 +21,14 @@
             {{/isEqualToOne}}
             {{#isEqualToTwo order_number}}
                     {{#if answer}}
-                        <a href="#" class="category-container" id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}">
+                        <a href="#" class="category-container" id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}" draggable="true">
                             <div class='images-cont'>
                                 <img class="cat-style-1-img1" src="img/cat-images/cat-style-2-img.jpg">
                                 <img class="cat-style-1-template-left" src="img/cat-images/cat-style-2-template.png">
                                 <img class="cat-style-2-template-dot-left dot" style="display:none" src="img/edit-dot.svg">
                                 <div class="cat-text-container-style-2">
-                                    <p class="cat-title2">{{../Title}}</p>
-                                    <p class="cat-subtitle2">{{../Subtitle}}</p>
+                                    <p class="cat-title2" style="top: 10px; left:210px;">{{../Title}}</p>
+                                    <p class="cat-subtitle2" style="top: 70px; left:190px;">{{../Subtitle}}</p>
                                 </div>
                             </div>
                         </a>
@@ -36,14 +36,14 @@
             {{/isEqualToTwo}}
             {{#isEqualToThree order_number}}
                     {{#if answer}}
-                        <a href="#" class="category-container" id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}">
+                        <a href="#" class="category-container" id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}" draggable="true">
                             <div class='images-cont'>
                                 <img class="cat-style-3-img" src="img/cat-images/cat-style-3-img.jpg">
                                 <img class="cat-style-1-template-left" src="img/cat-images/cat-style-3-template.png">
                                 <img class="cat-style-3-template-dot-right dot" style="display:none" src="img/edit-dot.svg">
                                 <div class="cat-text-container-style-3">
-                                    <p class="cat-title3">{{../Title}}</p>
-                                    <p class="cat-subtitle3">{{../Subtitle}}</p>
+                                    <p class="cat-title3" style="top: 10px; left:20px;">{{../Title}}</p>
+                                    <p class="cat-subtitle3" style="top: 80px; left:0px;">{{../Subtitle}}</p>
                                 </div>
                             </div>
                         </a>
@@ -51,7 +51,7 @@
             {{/isEqualToThree}}
             {{#isEqualToFour order_number}}
                     {{#if answer}}
-                        <a href="#" class="category-container"  id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}">
+                        <a href="#" class="category-container"  id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}" draggable="true">
                             <div class='images-cont'>
                                 <img class="cat-style-4-img1" src="img/cat-images/cat-style-4-img1.jpg">
                                 <img class="cat-style-4-img2" src="img/cat-images/cat-style-4-img2.jpg">
@@ -60,9 +60,9 @@
                                 <img class="cat-style-4-template-dot-1 dot" style="display:none" src="img/edit-dot.svg">
                                 <img class="cat-style-4-template-dot-2 dot" style="display:none" src="img/edit-dot.svg">
                                 <img class="cat-style-4-template-dot-3 dot" style="display:none" src="img/edit-dot.svg">
-                                <div class="cat-text-container-style-4">
-                                    <p class="cat-title4">{{../Title}}</p>
-                                    <p class="cat-subtitle4">{{../Subtitle}}</p>
+                                <div class="cat-text-container-style-4" >
+                                    <p class="cat-title4" style="top: 38px; left:110px;">{{../Title}}</p>
+                                    <p class="cat-subtitle4" style="top: 90px; left:110px;">{{../Subtitle}}</p>
                                 </div>
                             </div>
                         </a>
@@ -77,3 +77,4 @@
     <img src="img/add.svg" class="addSVG">
     <img src="img/delete.svg" class="deleteSVG">
 <script src="js/admin-cat.js"></script>
+<script src="js/admin-drag-categories.js"></script>

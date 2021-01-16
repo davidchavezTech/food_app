@@ -8,19 +8,27 @@ moveBtn = document.querySelector('.moveSVG')
 addBtn = document.querySelector('.addSVG')
 deleteBtn = document.querySelector('.deleteSVG')
 
+
 editableTitles = document.querySelectorAll('.title-edit')
 
+let categoryContainers = document.querySelectorAll('.category-container')
+let newArray = Array.from(categoryContainers)
+var cancelVariablesDic = {}
+let textElements;
+
+
 //If enter is pressed, lose input focus.
+function isMobile() {
+    try{ document.createEvent("TouchEvent"); return true; }
+    catch(e){ return false; }
+}
+let mobile = isMobile();
 editableTitles.forEach(element => {
     element.style.width = ((element.value.length + 1) * 20) + 'px';
     element.addEventListener('keyup',function(e){
         if (e.which == 13) this.blur();
     });
 });
-let categoryContainers = document.querySelectorAll('.category-container')
-let newArray = Array.from(categoryContainers)
-var cancelVariablesDic = {}
-let textElements;
 container.addEventListener('click', (e)=>{
     
     //check if there is a port number, if not, then set var portnumber to ""
@@ -32,7 +40,7 @@ container.addEventListener('click', (e)=>{
     }
     if(e.target.src == window.location.protocol + "//" + window.location.hostname + portnumber + "/img/edit.svg"){
 
-        enableConfirmAndCancelBtns(e.target, 'edit')
+        enableConfirmAndCancelBtns('edit')
 
         for(i=0;i<newArray.length;i++){
             
@@ -43,35 +51,17 @@ container.addEventListener('click', (e)=>{
     //REVERT inputs back to p's
     else if(e.target.id == "commit-edit"){
         
-        revertEditingBtns(e.target)
-
-        let draggables = document.querySelectorAll('.drag')
-        draggables.forEach(draggable =>{
-            draggable.remove()
-        })
+        revertEditingBtns()
 
         for(i=0;i<newArray.length;i++){
             
-            let category_type = newArray[i].getAttribute("category_type")
-            if(category_type == 1){
                 revertInputToP(newArray[i])
-            }else if(category_type == 2){
-                revertInputToP(newArray[i])
-            }else if(category_type == 3){
-                revertInputToP(newArray[i])
-            }else if(category_type == 4){
-                revertInputToP(newArray[i])
-            }
-
+    
         e.target.src = window.location.protocol + "//" + window.location.hostname + portnumber + "/img/edit.svg"
         }
     }
     //Changes have been canceled. Use dictionary to put original titles and subtitles back
     else if(e.target.id == "cancel-edit"){
-        // for(i=0;i<newArray.length;i++){
-        //     //Loop over each old title
-        //     console.log(cancelVariablesDic["titleForCat" + i])
-        // }
         revertEditingBtns(e.target)
 
         for (let k in cancelVariablesDic) {
@@ -93,10 +83,27 @@ container.addEventListener('click', (e)=>{
                 pSubtitle.innerHTML= cancelVariablesDic[category + index]
                 input[0].parentNode.replaceChild(pSubtitle, input[0]);
             }
-        }
+        }cancelVariablesDic = {}
     }
     //ADD DRAGGABLE EFFECT
     else if(e.target.src == window.location.protocol + "//" + window.location.hostname + portnumber + "/img/move.svg"){
+
+        //Save position of elements in case they cancel
+        let i = 0
+            
+            categoryContainers.forEach(categoryContainer =>{
+                console.log('id: ' + i)
+                let pElements = categoryContainer.querySelectorAll('p')
+                console.log('xT: ' + pElements[0].style.left)
+                console.log('yT: ' + pElements[0].style.top)
+                console.log('xST: ' + pElements[1].style.left)
+                console.log('yST: ' + pElements[1].style.top)
+                createVariables('xT', i, pElements[0].style.left)
+                createVariables('yT', i, pElements[0].style.top)
+                createVariables('xST', i, pElements[1].style.left)
+                createVariables('yST', i, pElements[1].style.top)
+                i++
+            })
         
         //add draggable icon next to each category div
         for(j=0;j<newArray.length;j++){
@@ -105,22 +112,19 @@ container.addEventListener('click', (e)=>{
             draggableDiv.innerHTML = `<img src="img/draggable.svg" class="draggable-dots">`
             newArray[j].insertBefore(draggableDiv, newArray[j].firstChild);
         }
-        enableConfirmAndCancelBtns(e.target, 'draggable')
+        enableConfirmAndCancelBtns('draggable')
 
         //Enable repositioning of text elements
         textElements = document.querySelectorAll("p");
         textElements.forEach(textElement => {
-           
         
-            let elmnt = textElement
-            let str = elmnt.classList.value;
+            let str = textElement.classList.value;
             let titleOrSubtitle = str.substring(0, str.length - 1)
             var categoryType = str.charAt(str.length-1);
 
-            console.log(categoryType)
-            console.log("Element's X offset: " + elmnt.offsetLeft)
-            console.log("Element's Y offset: " + elmnt.offsetTop)
-            mobile == true ? elmnt.ontouchstart = dragMouseDown : elmnt.onmousedown = dragMouseDown
+            // console.log("Element's X offset: " + textElement.offsetLeft)
+            // console.log("Element's Y offset: " + textElement.offsetTop)
+            mobile == true ? textElement.ontouchstart = dragMouseDown : textElement.onmousedown = dragMouseDown
             function dragMouseDown(e) {
                 width = e.target.offsetWidth
                 e = e || window.event;
@@ -128,7 +132,6 @@ container.addEventListener('click', (e)=>{
                 // get the mouse cursor position at startup:
                 mobile == true ? pos3 = e.touches[0].clientX : pos3 = e.clientX
                 mobile == true ? pos4 = e.touches[0].clientY : pos4 = e.clientY
-                console.log("yes")
                 mobile == true ? document.ontouchend = closeDragElement : document.onmouseup = closeDragElement
 
                 // call a function whenever the cursor moves:
@@ -146,6 +149,7 @@ container.addEventListener('click', (e)=>{
                 pos3 = mobile == true ? e.touches[0].clientX : e.clientX;
                 pos4 = mobile == true ? e.touches[0].clientY : e.clientY;
 
+                //set the max movement for each text element:
                 let a, b, c, d
                 //titles
                 if(categoryType == 1 && titleOrSubtitle == "cat-title") {
@@ -161,20 +165,18 @@ container.addEventListener('click', (e)=>{
                 else if(categoryType == 1 && titleOrSubtitle == "cat-subtitle") {
                     a=68, b =84, c=65, d=121
                 }else if(categoryType == 2 && titleOrSubtitle == "cat-subtitle") {
-                    a=76, b =90, c=176, d=216
+                    a=50, b =90, c=166, d=216
                 }else if(categoryType == 3 && titleOrSubtitle == "cat-subtitle") {
                     a=63, b =90, c=-17, d=32
                 }else if(categoryType == 4 && titleOrSubtitle == "cat-subtitle") {
                     a=86, b =96, c=63, d=118
                 }
                 // set the element's new position:
-                let offsetleft = elmnt.offsetLeft
+                let offsetleft = textElement.offsetLeft
                 
-                console.log("Y: " + (elmnt.offsetTop - pos2))
-                console.log("X: " + (elmnt.offsetLeft - pos1))
-                if((elmnt.offsetTop - pos2 >= a && elmnt.offsetTop - pos2 <= b) && (elmnt.offsetLeft - pos1 >= c && elmnt.offsetLeft - pos1 <= d)){
-                    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-                    elmnt.style.left = (offsetleft - pos1) + "px";
+                if((textElement.offsetTop - pos2 >= a && textElement.offsetTop - pos2 <= b) && (textElement.offsetLeft - pos1 >= c && textElement.offsetLeft - pos1 <= d)){
+                    textElement.style.top = (textElement.offsetTop - pos2) + "px";
+                    textElement.style.left = (offsetleft - pos1) + "px";
                 }
                 //OPTIONAL: Disable dragging if it hits bounding box's limits
                 // else{
@@ -183,27 +185,54 @@ container.addEventListener('click', (e)=>{
             }
         })
     }
-        else if(e.target.id == "commit-draggable"){
-            closeDragElement()
-        }
-        //CANCEL draggables edition:
-        else if(e.target.id == "cancel-draggable"){
-            textElements.forEach(textElement =>{
-                textElement
-            })
-            let draggables = document.querySelectorAll('.drag')
-            draggables.forEach(draggable =>{
-                draggable.remove()
-                revertEditingBtns()
-            })
-            closeDragElement()
-        }
-        function closeDragElement() {
-            console.log('yeeh')
-            /* stop moving when mouse button is released:*/
-            mobile == true ? document.ontouchmove = null : document.onmousemove = null
-            mobile == true ? document.ontouchend = null : document.onmouseup = null                
-        }
+    else if(e.target.id == "commit-draggable"){
+        textElements.forEach(textElement =>{
+            textElement.onmousedown = null
+        })
+        let draggables = document.querySelectorAll('.drag')
+        draggables.forEach(draggable =>{
+            draggable.remove()
+            revertEditingBtns()
+        })
+        closeDragElement()
+    }
+    //CANCEL draggables edition:
+    else if(e.target.id == "cancel-draggable"){
+        i=0
+        console.log(cancelVariablesDic)
+        var giveValue = function (k) {
+            return cancelVariablesDic[k];
+        };
+
+        for (let k in cancelVariablesDic) {
+            let key = k.replace(/[0-9]/g, '');
+            let id = k.match(/\d+/)[0]; 
+            let pElements = categoryContainers[id].querySelectorAll('p')
+            if(key == 'xT'){
+                pElements[0].style.left = giveValue(k)
+            }else if (key == 'xST'){
+                pElements[1].style.left = giveValue(k)
+            }else if (key == 'yT'){
+                pElements[0].style.top = giveValue(k)
+            }else if (key == 'yST'){
+                pElements[1].style.top = giveValue(k)
+            }
+        }cancelVariablesDic = {}
+        textElements.forEach(textElement =>{
+            textElement.onmousedown = null
+        })
+        let draggables = document.querySelectorAll('.drag')
+        draggables.forEach(draggable =>{
+            draggable.remove()
+            revertEditingBtns()
+        })
+        closeDragElement()
+    }
+    function closeDragElement() {
+        /* stop moving when mouse button is released:*/
+        mobile == true ? document.ontouchmove = null : document.onmousemove = null
+        mobile == true ? document.ontouchend = null : document.onmouseup = null                
+    }
 })
 function changePtoInput(array){
     var variable;
@@ -232,20 +261,17 @@ function changePtoInput(array){
                 
                 let titlePositionX = pTitle.offsetLeft
                 let titlePositionY = pTitle.offsetTop
-                // console.log(titlePositionX)
-                // console.log(titlePositionY)
                 //select <p>'s class and store it
                 let savedClass = array.children[0].children[variable].children[0].classList.value
 
                 //create a variable and store it in dictionary (cancelVariablesDic) in case they cancel the edition
-                cancelVariablesDic['titleForCat'+i]=title
+                createVariables('titleForCat', i, title)
 
                 //Create input element for title and replace the p element with it
 
                 let inputTitle = document.createElement('input')
                 inputTitle.classList = savedClass + ' title-edit';
                 inputTitle.setAttribute('maxlength', 11)
-                console.log(titlePositionX)
                 // debugger
                 inputTitle.style.left = titlePositionX + 'px'
                 inputTitle.style.top = titlePositionY + 'px'
@@ -278,7 +304,7 @@ function changePtoInput(array){
                 let subtitleSavedClass = array.children[0].children[variable].children[1].classList.value
                 
                 //create a variable and store it in dictionary (cancelVariablesDic) in case they cancel the edition
-                cancelVariablesDic['subtitleForCat'+i]=savedSubtitle
+                createVariables('subtitleForCat', i, savedSubtitle)
                  
                 //Create input element for subtitle and replace the p element with it
 
@@ -363,7 +389,7 @@ function revertInputToP(array){
         inputSubtitle.parentNode.replaceChild(pSubtitle, inputSubtitle);
     
 }
-function enableConfirmAndCancelBtns(BtnClicked, btnType){
+function enableConfirmAndCancelBtns(btnType){
     editBtn.id = 'commit-' + btnType 
     editBtn.src = '/img/confirm.svg'
     cameraBtn.style = 'display:none'
@@ -386,8 +412,6 @@ function revertEditingBtns(){
     deleteBtn.style = "display:auto"
     deleteBtn.src = 'img/delete.svg'
 }
-function isMobile() {
-    try{ document.createEvent("TouchEvent"); return true; }
-    catch(e){ return false; }
+function createVariables(variableName, i, value){
+    cancelVariablesDic[variableName+i]=value
 }
-let mobile = isMobile();
