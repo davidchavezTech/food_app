@@ -329,12 +329,9 @@ html {
     color:black;
     margin-bottom:0px;
     margin-top:0px;
-    left: 210px;
     // margin-right:20px
 }.cat-title3{
     position: absolute;
-    left:20px;
-    top:10px;
     font-family: vegan-style-font;
     font-size:35px;
     color:black;
@@ -343,13 +340,11 @@ html {
     // margin-left:20px
 }.cat-title4{
     position: absolute;
-    top:35px;
     font-family: vegan-style-font;
     font-size:35px;
     color:black;
     margin-bottom:0px;
     margin-top:0px;
-    margin-left:0;
 }.cat-subtitle1{
     color:#f31212;
     font-family: freestyle-font;
@@ -372,22 +367,18 @@ html {
     margin-top: 0;
     width:140px;
     margin-right:5px;
-    top: 85px;
-    left:190px;
     position: absolute;
 }.cat-subtitle3{
     position: absolute;
-    top: 80px;
     color:#ba6b05;
     font-family: freestyle-font;
     margin:0;
     font-size:20px;
     line-height:70%;
-    margin-top:5px;
     text-align: center;
     margin-top: 0;
     width:140px;
-    margin-right:5px;
+    margin-right:0px;
 }.cat-subtitle4{
     position: absolute;
     color:#ba6b05;
@@ -396,7 +387,6 @@ html {
     font-size:20px;
     line-height:70%;
     // margin-top:5px;
-    top:90px;
     text-align: center;
     // margin-top: -10px;
     width:140px;
@@ -767,7 +757,7 @@ html {
 }
 
 .draggable.dragging {
-opacity: .5;
+opacity: .7;
 
 }.edit-btn-spacer{
 // background-color: #fff;
