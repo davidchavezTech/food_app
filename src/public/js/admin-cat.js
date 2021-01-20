@@ -443,21 +443,23 @@ function createVariables(variableName, i, value){
 }
     let cropBtnOne = document.querySelector('#crop-btn-one')
     function cropping(){
-        var canvas = document.getElementById('cat-1-img-1-canvas');
-        // returns true if every pixel's uint32 representation is 0 (or "blank")
-        function isCanvasBlank(canvas) {
+        // var canvas = document.getElementById('cat-1-img-1-canvas');
+        // // returns true if every pixel's uint32 representation is 0 (or "blank")
+        // function isCanvasBlank(canvas) {
             
-            const context = canvas.getContext('2d');
+        //     const context = canvas.getContext('2d');
 
-            const pixelBuffer = new Uint32Array(
-                context.getImageData(0, 0, canvas.width, canvas.height).data.buffer
-            );
+        //     const pixelBuffer = new Uint32Array(
+        //         context.getImageData(0, 0, canvas.width, canvas.height).data.buffer
+        //     );
             
-            return !pixelBuffer.some(color => color !== 0);
-        }
-        let isCanvasBlankVar = isCanvasBlank(canvas)
+        //     return !pixelBuffer.some(color => color !== 0);
+        // }
+        // let isCanvasBlankVar = isCanvasBlank(canvas)
+        
         cropBtnOne.addEventListener('click', function test(){
-            if(isCanvasBlankVar == false){
+            // console.log(isCanvasBlankVar)
+            // if(isCanvasBlankVar == false){
                 cropper.startCropping()
                 cropBtnOne.innerHTML = 'Crop!'
                 cropBtnOne.removeEventListener('click', test)
@@ -468,9 +470,9 @@ function createVariables(variableName, i, value){
                     // cropBtnOne = document.querySelector('#crop-btn-one')
                     cropping()
                 })
-            }else{
-                console.log('Is blank')
-            }
+            // }else{
+            //     console.log('Is blank')
+            // }
         })
     }cropping()
 //     const btn = document.querySelector('button')

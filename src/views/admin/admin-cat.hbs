@@ -8,7 +8,8 @@
         <div class="upload-buttons-main-cont">
             <div class="upload-buttons-conts">
                 <div class="upload-imgs-btns" id='crop-btn-one'>Crop Image!</div>
-                <input type="file" id="fileInput" name="image" onchange="handleFileSelect()" class="upload-imgs-btns">
+                <label for="fileInput" class="upload-imgs-btns">Upload Image</label>
+                <input type="file" id="fileInput" name="image" onchange="handleFileSelect()">
             </div>
         </div>
         <div class="category-container center-text" id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}" draggable="true">

@@ -1289,4 +1289,12 @@ textarea {
   background: -webkit-gradient(linear, left top, right top, from(#0b6af8), to(#9b31ed));
   background: linear-gradient(to right, #0b6af8, #9b31ed);
 }
+
+label {
+  display: inline-block;
+}
+
+input[type="file"] {
+  display: none;
+}
 /*# sourceMappingURL=adminStyles.css.map */
