@@ -198,6 +198,7 @@ html {
     font-size:28px;
     margin-bottom:60px;
 }.category-container{
+    opacity: 1;
     box-shadow: 2px 2px 7px 3px rgba(0,0,0,0.31);
     width:324px;
     height:114px;
@@ -210,20 +211,23 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
-    width:30px;
+    width:350px;
     background-color: white;
     border-radius: 5px 0px 0px 5px;
     cursor: all-scroll;
     position:absolute;
     z-index: 3;
-    transform: translateX(-5px);
+    transform: translateX(-10px);
 }.draggable-dots{
-    width: 50%
+    pointer-events: none;
+    width: 15px;
+    padding: 0 5px;
 }.images-cont{
     background-color: white;
     position: relative;
     display: inline-block;
-    width:100%;
+    width:324px;
+    height:100%;
 }.cat-style-1-img1{
     // object-fit: cover;
     // width: 270px;
@@ -755,7 +759,9 @@ html {
     color:black;
     cursor: move;
 }
-
+.dragging {
+    opacity: .3;
+}
 .draggable.dragging {
 opacity: .7;
 
@@ -799,4 +805,70 @@ opacity: .7;
     left: 50%;
     z-index: 99;
     transform: translateX(140px);
+}
+//UPLOAD IMAGES - ADMIN CATEGORIES
+.upload-photo{
+    background-color: #fff9e1;
+    height:100vh;
+    width:411px;
+    position: absolute;
+    z-index: 98;
+    // display: none;
+}.upload-imgs-cont{
+    margin-top: 50px;
+    stroke:black;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}.img-upload{
+    border: solid 1px yellow;
+    width:240px;
+    height:279px;
+    background-color: white;
+    background-image: url('../img/camera-gray.svg');
+    background-repeat: no-repeat;
+    background-position: center; 
+    background-size: 60%;
+}.img-upload::before{
+    content: "";
+    z-index: -1;
+    position: absolute;
+    width:240px;
+    height:279px;
+    transform: translate(3px, 3px);
+    background: rgb(11,106,248);
+    background: linear-gradient(90deg, rgba(11,106,248,1) 0%, rgba(155,49,237,1) 100%);
+}.upload-buttons-main-cont{
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 30px;
+}.upload-imgs-btns{
+    font-family: five-reg;
+    font-size: 14px;
+    color:white;
+    background-color: #ff5400;
+    padding: 10px 20px;
+    width:200px;
+    margin-top: 22px;
+}.center-text{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    box-shadow: none;
+}.center-text::before{
+    content: "";
+    z-index: -1;
+    position: absolute;
+    width:324px;
+    height:114px;
+    transform: translate(3px, 3px);
+    background: rgb(11,106,248);
+    background: linear-gradient(90deg, rgba(11,106,248,1) 0%, rgba(155,49,237,1) 100%);
+}.canvas-shadow{
+    display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px; 
+  box-shadow: inset 3px 3px 0 0 #fff9e1, inset 0 0 3px 3px transparent;
+  background: linear-gradient(to right, #0b6af8 , #9b31ed);
 }

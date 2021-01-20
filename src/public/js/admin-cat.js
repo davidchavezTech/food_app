@@ -12,6 +12,7 @@ deleteBtn = document.querySelector('.deleteSVG')
 editableTitles = document.querySelectorAll('.title-edit')
 
 let categoryContainers = document.querySelectorAll('.category-container')
+let imgContainers = document.querySelectorAll('.images-cont')
 let newArray = Array.from(categoryContainers)
 var cancelVariablesDic = {}
 let textElements;
@@ -87,17 +88,17 @@ container.addEventListener('click', (e)=>{
     }
     //ADD DRAGGABLE EFFECT
     else if(e.target.src == window.location.protocol + "//" + window.location.hostname + portnumber + "/img/move.svg"){
-
+        // categoryContainers = document.querySelectorAll('.category-container')//reset this selector
         //Save position of elements in case they cancel
         let i = 0
             
             categoryContainers.forEach(categoryContainer =>{
-                console.log('id: ' + i)
+                // console.log('id: ' + i)
                 let pElements = categoryContainer.querySelectorAll('p')
-                console.log('xT: ' + pElements[0].style.left)
-                console.log('yT: ' + pElements[0].style.top)
-                console.log('xST: ' + pElements[1].style.left)
-                console.log('yST: ' + pElements[1].style.top)
+                // console.log('xT: ' + pElements[0].style.left)
+                // console.log('yT: ' + pElements[0].style.top)
+                // console.log('xST: ' + pElements[1].style.left)
+                // console.log('yST: ' + pElements[1].style.top)
                 createVariables('xT', i, pElements[0].style.left)
                 createVariables('yT', i, pElements[0].style.top)
                 createVariables('xST', i, pElements[1].style.left)
@@ -109,9 +110,14 @@ container.addEventListener('click', (e)=>{
         for(j=0;j<newArray.length;j++){
             let draggableDiv = document.createElement('div');
             draggableDiv.classList = 'drag'
+            draggableDiv.setAttribute('draggable', 'true')
             draggableDiv.innerHTML = `<img src="img/draggable.svg" class="draggable-dots">`
-            newArray[j].insertBefore(draggableDiv, newArray[j].firstChild);
+            newArray[j].append(draggableDiv);
+            // let test = draggableDiv.previousSibling
+            // console.log(test)
+            draggableDiv.append(draggableDiv.previousElementSibling)
         }
+        enableCatRepositioning()
         enableConfirmAndCancelBtns('draggable')
 
         //Enable repositioning of text elements
@@ -122,8 +128,6 @@ container.addEventListener('click', (e)=>{
             let titleOrSubtitle = str.substring(0, str.length - 1)
             var categoryType = str.charAt(str.length-1);
 
-            // console.log("Element's X offset: " + textElement.offsetLeft)
-            // console.log("Element's Y offset: " + textElement.offsetTop)
             mobile == true ? textElement.ontouchstart = dragMouseDown : textElement.onmousedown = dragMouseDown
             function dragMouseDown(e) {
                 width = e.target.offsetWidth
@@ -189,17 +193,26 @@ container.addEventListener('click', (e)=>{
         textElements.forEach(textElement =>{
             textElement.onmousedown = null
         })
-        let draggables = document.querySelectorAll('.drag')
-        draggables.forEach(draggable =>{
-            draggable.remove()
-            revertEditingBtns()
+        let m = 0
+        categoryContainers.forEach(container => {
+            container.append(imgContainers[m])
+            
+            container.children[0].remove()
+            m++
         })
+        m = 0
+        categoryContainers = document.querySelectorAll('.category-container')
+        imgContainers = document.querySelectorAll('.images-cont')
+        categoryContainers.forEach(container =>{
+            container.setAttribute('order', m)
+            m++
+        })
+        revertEditingBtns()
         closeDragElement()
     }
     //CANCEL draggables edition:
     else if(e.target.id == "cancel-draggable"){
         i=0
-        console.log(cancelVariablesDic)
         var giveValue = function (k) {
             return cancelVariablesDic[k];
         };
@@ -221,12 +234,25 @@ container.addEventListener('click', (e)=>{
         textElements.forEach(textElement =>{
             textElement.onmousedown = null
         })
-        let draggables = document.querySelectorAll('.drag')
-        draggables.forEach(draggable =>{
-            draggable.remove()
-            revertEditingBtns()
+        let m = 0
+        categoryContainers.forEach(container => {
+            container.append(imgContainers[m])
+            container.children[0].remove()
+            container.parentElement.append(container)
+            m++
         })
+        m = 0
+        revertEditingBtns()
         closeDragElement()
+    }
+    else if(e.target.src == window.location.protocol + "//" + window.location.hostname + portnumber + "/img/camera.svg"){
+        enableConfirmAndCancelBtns('camera')
+        let dotsSGVs = document.querySelectorAll('.dot')
+        dotsSGVs.forEach(dotsSGV =>{
+            console.log(dotsSGV);
+            dotsSGV.style.display = 'block'
+        })
+        
     }
     function closeDragElement() {
         /* stop moving when mouse button is released:*/
@@ -414,4 +440,87 @@ function revertEditingBtns(){
 }
 function createVariables(variableName, i, value){
     cancelVariablesDic[variableName+i]=value
+}
+    let cropBtnOne = document.querySelector('#crop-btn-one')
+    function cropping(){
+        var canvas = document.getElementById('cat-1-img-1-canvas');
+        // returns true if every pixel's uint32 representation is 0 (or "blank")
+        function isCanvasBlank(canvas) {
+            
+            const context = canvas.getContext('2d');
+
+            const pixelBuffer = new Uint32Array(
+                context.getImageData(0, 0, canvas.width, canvas.height).data.buffer
+            );
+            
+            return !pixelBuffer.some(color => color !== 0);
+        }
+        let isCanvasBlankVar = isCanvasBlank(canvas)
+        cropBtnOne.addEventListener('click', function test(){
+            if(isCanvasBlankVar == false){
+                cropper.startCropping()
+                cropBtnOne.innerHTML = 'Crop!'
+                cropBtnOne.removeEventListener('click', test)
+                cropBtnOne.addEventListener('click', function test2(){
+                    cropper.getCroppedImageSrc()
+                    cropBtnOne.innerHTML = 'Start Cropping again'
+                    cropBtnOne.removeEventListener('click', test2)
+                    // cropBtnOne = document.querySelector('#crop-btn-one')
+                    cropping()
+                })
+            }else{
+                console.log('Is blank')
+            }
+        })
+    }cropping()
+//     const btn = document.querySelector('button')
+    //     btn.addEventListener('click', ()=>{
+
+    //         var canvas = document.getElementById('testCanvas');
+    //         // returns true if every pixel's uint32 representation is 0 (or "blank")
+    //         function isCanvasBlank(canvas) {
+                
+    //         const context = canvas.getContext('2d');
+
+    //         const pixelBuffer = new Uint32Array(
+    //             context.getImageData(0, 0, canvas.width, canvas.height).data.buffer
+    //         );
+            
+    //         return !pixelBuffer.some(color => color !== 0);
+    //         }
+    //         console.log(isCanvasBlank(canvas))
+    //         canvas.toBlob((blob) =>{
+    //             // var newImg = document.createElement('img'),
+    //             // url = URL.createObjectURL(blob);
+
+    //             //newImg.src = url;
+    //             //document.body.appendChild(newImg);
+    //             var fd = new FormData();
+    //             fd.append('image', blob, 'success.jpg');
+
+    //             const options= {
+    //                 method: 'POST',
+    //                 body: fd
+    //             }
+    //             fetch('/admin-upload', options)
+                
+    //     });
+    //     })
+let canvas = document.getElementById('cat-1-img-1-canvas')
+canvas.width = canvas.scrollWidth
+canvas.height = canvas.scrollHeight
+cropper.start(document.getElementById("cat-1-img-1-canvas"), 1);
+console.log('yes')
+function handleFileSelect() {
+    // this function will be called when the file input below is changed
+    var file = document.getElementById("fileInput").files[0];  // get a reference to the selected file
+    
+    var reader = new FileReader(); // create a file reader
+    // set an onload function to show the image in cropper once it has been loaded
+    reader.onload = function(event) {
+        var data = event.target.result; // the "data url" of the image
+        cropper.showImage(data); // hand this to cropper, it will be displayed
+    };
+    
+    reader.readAsDataURL(file); // this loads the file as a data url calling the function above once done
 }

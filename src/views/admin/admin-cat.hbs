@@ -1,5 +1,52 @@
 <div class="noodles">
+    <div class="upload-photo">
+        <div class="upload-imgs-cont">
+            <div class="canvas-shadow"><canvas class="img-upload" id="cat-1-img-1-canvas"></canvas></div>
+            {{!-- <div class="img-upload"></div> --}}
+        </div>
+    
+        <div class="upload-buttons-main-cont">
+            <div class="upload-buttons-conts">
+                <div class="upload-imgs-btns" id='crop-btn-one'>Crop Image!</div>
+                <input type="file" id="fileInput" name="image" onchange="handleFileSelect()" class="upload-imgs-btns">
+            </div>
+        </div>
+        <div class="category-container center-text" id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}" draggable="true">
+                            <div class='images-cont'>
+                                <img class="cat-style-1-img1" src="img/cat-images/cat-style-1-img1.jpg">
+                                <img class="cat-style-1-img2" src="img/cat-images/cat-style-1-img2.jpg">
+                                <img class="cat-style-1-template-left" src="img/cat-images/cat-style-1-template-left.png">
+                                <img class="cat-style-1-template-right" src="img/cat-images/cat-style-1-template-right.png">
+                                <img class="cat-style-1-template-dot-left dot" style="display:none" src="img/edit-dot.svg">
+                                <img class="cat-style-1-template-dot-right dot" style="display:none" src="img/edit-dot.svg">
+                                <div class="cat-text-container">
+                                    <p class="cat-title1" style="top: 7px; left:130px;">Title</p>
+                                    <p class="cat-subtitle1" style="top: 75px; left:90px;">Some text about your product</p>
+                                </div>
+                            </div>
+        </div>
+        {{!-- <script>
+            const canvas = document.getElementById('testCanvas')
+            cropper.start(document.getElementById("testCanvas"), 1); // initialize cropper by providing it with a target canvas and a XY ratio (height = width * ratio)
+
+            
+            function handleFileSelect() {
+            // this function will be called when the file input below is changed
+            var file = document.getElementById("fileInput").files[0];  // get a reference to the selected file
+            
+            var reader = new FileReader(); // create a file reader
+            // set an onload function to show the image in cropper once it has been loaded
+            reader.onload = function(event) {
+                var data = event.target.result; // the "data url" of the image
+                cropper.showImage(data); // hand this to cropper, it will be displayed
+            };
+            
+            reader.readAsDataURL(file); // this loads the file as a data url calling the function above once done
+        }
+        </script> --}}
+    </div>
     <div class="lighten blurr">
+        <div class="categories-cont">
         {{#each categories}}
             {{#isEqualToOne order_number}}
                     {{#if answer}}
@@ -69,6 +116,7 @@
                     {{/if}}
             {{/isEqualToFour}}
         {{/each}}
+        </div>
     <div class="edit-btn-spacer"></div>
     </div>
     <img src="img/edit.svg" class="editSVG">
