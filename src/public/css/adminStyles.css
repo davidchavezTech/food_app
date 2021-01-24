@@ -1049,6 +1049,7 @@ textarea {
 .dot {
   width: 18px;
   position: absolute;
+  cursor: pointer;
 }
 
 .cat-style-1-template-dot-left {
@@ -1188,6 +1189,7 @@ textarea {
   width: 411px;
   position: absolute;
   z-index: 98;
+  display: none;
 }
 
 .upload-imgs-cont {
@@ -1206,8 +1208,8 @@ textarea {
 
 .img-upload {
   border: solid 1px yellow;
-  width: 240px;
-  height: 279px;
+  width: 280px;
+  height: 280px;
   background-color: white;
   background-image: url("../img/camera-gray.svg");
   background-repeat: no-repeat;
@@ -1296,5 +1298,21 @@ label {
 
 input[type="file"] {
   display: none;
+}
+
+.preview {
+  overflow: hidden;
+  width: 98.22px;
+  height: 114px;
+}
+
+.cropper-container {
+  border: solid 2px yellow;
+}
+
+.example-img {
+  width: 300px;
+  margin: 20px auto;
+  margin-left: 50px;
 }
 /*# sourceMappingURL=adminStyles.css.map */

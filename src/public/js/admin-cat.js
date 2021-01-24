@@ -1,5 +1,7 @@
 editBtn = document.querySelector('.editSVG');
 container = document.querySelector('.noodles');
+uploadPhotoCont = document.querySelector('.upload-photo');
+dynamicTemplate = document.querySelector('#dynamic-template');
 
 //Buttons
 editBtn = document.querySelector('.editSVG')
@@ -11,7 +13,7 @@ deleteBtn = document.querySelector('.deleteSVG')
 
 editableTitles = document.querySelectorAll('.title-edit')
 
-let categoryContainers = document.querySelectorAll('.category-container')
+let categoryContainers = document.querySelectorAll('a.category-container')
 let imgContainers = document.querySelectorAll('.images-cont')
 let newArray = Array.from(categoryContainers)
 var cancelVariablesDic = {}
@@ -44,7 +46,7 @@ container.addEventListener('click', (e)=>{
         enableConfirmAndCancelBtns('edit')
 
         for(i=0;i<newArray.length;i++){
-            
+           
             changePtoInput(newArray[i])
            
         }//End of for loop
@@ -247,10 +249,35 @@ container.addEventListener('click', (e)=>{
     }
     else if(e.target.src == window.location.protocol + "//" + window.location.hostname + portnumber + "/img/camera.svg"){
         enableConfirmAndCancelBtns('camera')
-        let dotsSGVs = document.querySelectorAll('.dot')
-        dotsSGVs.forEach(dotsSGV =>{
-            console.log(dotsSGV);
-            dotsSGV.style.display = 'block'
+        newArray.forEach(el =>{
+            //remove cursor-pointer so that the new dots are the only ones with it
+            el.lastElementChild.lastElementChild.style.pointerEvents = "none"
+            el.style.cursor = 'auto'
+        })
+        let dotsSVGs = document.querySelectorAll('.dot')
+        dotsSVGs.forEach(dotsSVG =>{
+            //Replace display:none so that these dots are visible
+            dotsSVG.style.display = 'block'
+            dotsSVG.addEventListener('click', (dot)=>{
+                //Get title's text and position
+                let titleVar = dot.target.parentElement.lastElementChild.children[0].innerHTML
+                let titleVarY = dot.target.parentElement.lastElementChild.children[0].style.top
+                let titleVarX = dot.target.parentElement.lastElementChild.children[0].style.left
+                //Set title's text and position
+                dynamicTemplate.children[0].lastElementChild.children[0].innerHTML = titleVar
+                dynamicTemplate.children[0].lastElementChild.children[0].style.top = titleVarY
+                dynamicTemplate.children[0].lastElementChild.children[0].style.left = titleVarX
+                //Get subtitle's text and position
+                let subtitleVar = dot.target.parentElement.lastElementChild.children[1].innerHTML
+                let subtitleVarY = dot.target.parentElement.lastElementChild.children[1].style.top
+                let subtitleVarX = dot.target.parentElement.lastElementChild.children[1].style.left
+                //Set subtitle's text and position
+                dynamicTemplate.children[0].lastElementChild.children[1].innerHTML = subtitleVar
+                dynamicTemplate.children[0].lastElementChild.children[1].style.top = subtitleVarY
+                dynamicTemplate.children[0].lastElementChild.children[1].style.left = subtitleVarX
+                
+                uploadPhotoCont.style.display = 'block'
+            })
         })
         
     }
@@ -261,6 +288,7 @@ container.addEventListener('click', (e)=>{
     }
 })
 function changePtoInput(array){
+    
     var variable;
     switch (array.getAttribute("category_type")) {
       case "1":
@@ -280,6 +308,7 @@ function changePtoInput(array){
                 
                 //select <p>
                 
+                console.log(variable)
                 let pTitle = array.children[0].children[variable].children[0]
                 //select <p>'s text(title) and store it
                 let title = array.children[0].children[variable].children[0].innerHTML
@@ -441,40 +470,24 @@ function revertEditingBtns(){
 function createVariables(variableName, i, value){
     cancelVariablesDic[variableName+i]=value
 }
-    let cropBtnOne = document.querySelector('#crop-btn-one')
-    function cropping(){
-        // var canvas = document.getElementById('cat-1-img-1-canvas');
-        // // returns true if every pixel's uint32 representation is 0 (or "blank")
-        // function isCanvasBlank(canvas) {
-            
-        //     const context = canvas.getContext('2d');
-
-        //     const pixelBuffer = new Uint32Array(
-        //         context.getImageData(0, 0, canvas.width, canvas.height).data.buffer
-        //     );
-            
-        //     return !pixelBuffer.some(color => color !== 0);
-        // }
-        // let isCanvasBlankVar = isCanvasBlank(canvas)
-        
-        cropBtnOne.addEventListener('click', function test(){
-            // console.log(isCanvasBlankVar)
-            // if(isCanvasBlankVar == false){
-                cropper.startCropping()
-                cropBtnOne.innerHTML = 'Crop!'
-                cropBtnOne.removeEventListener('click', test)
-                cropBtnOne.addEventListener('click', function test2(){
-                    cropper.getCroppedImageSrc()
-                    cropBtnOne.innerHTML = 'Start Cropping again'
-                    cropBtnOne.removeEventListener('click', test2)
-                    // cropBtnOne = document.querySelector('#crop-btn-one')
-                    cropping()
-                })
-            // }else{
-            //     console.log('Is blank')
-            // }
-        })
-    }cropping()
+    
+    // const croppedImage = document.getElementById("img-one-to-change");
+    
+    // function cropping(){
+               
+    //     cropBtnOne.addEventListener('click', function test(){
+    //             cropper.startCropping()
+    //             cropBtnOne.innerHTML = 'Crop!'
+    //             cropBtnOne.removeEventListener('click', test)
+    //             cropBtnOne.addEventListener('click', function test2(){
+    //                 cropper.getCroppedImageSrc()
+    //                 cropBtnOne.innerHTML = 'Start Cropping again'
+    //                 cropBtnOne.removeEventListener('click', test2)
+    //                 // cropBtnOne = document.querySelector('#crop-btn-one')
+    //                 cropping()
+    //             })
+    //     })
+    // }cropping()
 //     const btn = document.querySelector('button')
     //     btn.addEventListener('click', ()=>{
 
@@ -508,21 +521,135 @@ function createVariables(variableName, i, value){
                 
     //     });
     //     })
+let cropBtnTwo = document.querySelector('#crop-btn-two')
+let endBtn = document.querySelector('#end')
 let canvas = document.getElementById('cat-1-img-1-canvas')
-canvas.width = canvas.scrollWidth
-canvas.height = canvas.scrollHeight
-cropper.start(document.getElementById("cat-1-img-1-canvas"), 1);
-console.log('yes')
-function handleFileSelect() {
+const croppedImage = document.getElementById("croppedImage");
+const input = document.getElementById("fileInput");
+
+
+input.addEventListener('change', ()=>{
+    console.log('change')
     // this function will be called when the file input below is changed
     var file = document.getElementById("fileInput").files[0];  // get a reference to the selected file
-    
     var reader = new FileReader(); // create a file reader
     // set an onload function to show the image in cropper once it has been loaded
     reader.onload = function(event) {
         var data = event.target.result; // the "data url" of the image
-        cropper.showImage(data); // hand this to cropper, it will be displayed
+        
+
+        //create an image to get the dimensions of the uploaded image
+        var image = new Image();
+        image.src = event.target.result;     
+        //Validate the File Height and Width.
+        image.onload = function () {
+            document.querySelector('.cat-style-1-img1').remove
+            console.log(this)
+            var imgHeight = this.height;
+            var imgWidth = this.width;
+            canvas.width = imgWidth
+            canvas.height = imgHeight
+            if(imgWidth<imgHeight){
+                canvas.style.height = '280px'
+                canvas.style.width = 'auto'
+            }else{
+                canvas.style.width = '280px'
+                canvas.style.height = 'auto'
+            }
+            var ctx = canvas.getContext("2d");
+            // var img = document.getElementById("example-img");
+            ctx.drawImage(image, 0, 0);
+            console.log(canvas)
+            // var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            canvas.toBlob(function(blob) {
+                // let previewDiv = document.querySelector('.preview')
+                var blobImage = new Image();
+                var urlCreator = window.URL || window.webkitURL;
+                let blobImageURL = urlCreator.createObjectURL(blob)
+                // console.log(blobImageURL)
+                // console.log(blob)
+                blobImage.src = blobImageURL
+                // previewDiv.append(blobImage)
+               
+
+                const cropper = new Cropper(canvas, {
+                        aspectRatio: 56 / 65,
+                        // autoCrop: false,
+                        preview: '.preview',
+                        ready() {
+                                cropBtnTwo.addEventListener('click', ()=>{
+                                    let newImg = new Image();
+                                    newImg.src = cropper.getCroppedCanvas().toDataURL('image/jpeg')
+                                    let resizedImgCanvas = downScaleCanvas(newImg)
+
+                                    resizedImgCanvas.toBlob(function(blob) {
+                                        // debugger
+                                        let previewDiv = document.querySelector('.preview')
+                                        var resizedblobImage = new Image();
+                                        var urlCreator = window.URL || window.webkitURL;
+                                        let resizedblobImageURL = urlCreator.createObjectURL(blob)
+                                        resizedblobImage.src = resizedblobImageURL
+                                        // console.log(resizedblobImage)
+                                        // console.log(resizedblobImageURL)
+                                        previewDiv.append(resizedblobImage)
+                                    // previewDiv.append(resizedImg) 
+                                    })
+                                })
+                                console.log('added end function')
+                                endBtn.addEventListener('click', ()=>{
+                                    console.log('wuh')
+                                    canvas.width = 282
+                                    canvas.height = 282
+                                    var context = canvas.getContext('2d');
+                                    context.clearRect(0, 0, canvas.width, canvas.height);
+                                    cropper.destroy()
+                                })
+                        },
+                });
+
+            });
+            // console.log(imgData)
+            
+        }
+
     };
-    
     reader.readAsDataURL(file); // this loads the file as a data url calling the function above once done
-}
+})
+const downScaleCanvas = (canvas) => {
+
+    canvas.classList.remove('example-img')
+
+    const scaledCanvas = document.createElement('canvas');
+    
+    
+    let strDataURI = canvas.src
+    var ctx = scaledCanvas.getContext('2d');
+    var img = new Image;
+    img.onload = function(){
+        scaledCanvas.width = 98.22
+        scaledCanvas.height = 114
+        ctx.drawImage(img,0,0,98.22,114); // Or at whatever offset you like
+    };
+    img.src = strDataURI;
+
+
+
+
+    
+    
+    
+    // scaledCanvas.style.height = '112px'
+    // scaledCanvas.style.width = '130px'
+    // scaledCanvas.style.backgroundColor = 'black'
+
+    // var ctx = scaledCanvas.getContext("2d");
+    // let lettuce = document.getElementById('findMe')
+    // // var img = document.getElementById("example-img");
+    // ctx.drawImage(scaledCanvas, 0, 0);
+
+    let previewDiv2 = document.querySelector('.preview2')
+    previewDiv2.append(scaledCanvas)
+   
+    return scaledCanvas;
+  };
+
