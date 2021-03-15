@@ -299,6 +299,19 @@ a {
   display: flex;
 }
 
+.category-container-preview {
+  opacity: 1;
+  -webkit-box-shadow: 2px 2px 7px 3px rgba(0, 0, 0, 0.31);
+          box-shadow: 2px 2px 7px 3px rgba(0, 0, 0, 0.31);
+  width: 324px;
+  height: 114px;
+  position: relative;
+  margin-top: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 .drag {
   height: 114px;
   display: -webkit-box;
@@ -327,6 +340,14 @@ a {
 }
 
 .images-cont {
+  background-color: white;
+  position: relative;
+  display: inline-block;
+  width: 324px;
+  height: 100%;
+}
+
+.images-cont-preview {
   background-color: white;
   position: relative;
   display: inline-block;

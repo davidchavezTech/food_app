@@ -206,6 +206,14 @@ html {
     margin-top:30px;
     display: flex;
     
+}.category-container-preview{
+    opacity: 1;
+    box-shadow: 2px 2px 7px 3px rgba(0,0,0,0.31);
+    width:324px;
+    height:114px;
+    position:relative;
+    margin-top:30px;
+    display: flex;
 }.drag{
     height: 114px;
     display: flex;
@@ -223,6 +231,12 @@ html {
     width: 15px;
     padding: 0 5px;
 }.images-cont{
+    background-color: white;
+    position: relative;
+    display: inline-block;
+    width:324px;
+    height:100%;
+}.images-cont-preview{
     background-color: white;
     position: relative;
     display: inline-block;

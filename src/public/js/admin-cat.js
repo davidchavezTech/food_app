@@ -193,10 +193,12 @@ container.addEventListener('click', (e)=>{
     }
     else if(e.target.id == "commit-draggable"){
         textElements.forEach(textElement =>{
+            //turns off draggable functionality I think
             textElement.onmousedown = null
         })
         let m = 0
         categoryContainers.forEach(container => {
+            //removes draggable icon, I think
             container.append(imgContainers[m])
             
             container.children[0].remove()
@@ -529,7 +531,8 @@ const input = document.getElementById("fileInput");
 
 
 input.addEventListener('change', ()=>{
-    console.log('change')
+    
+    
     // this function will be called when the file input below is changed
     var file = document.getElementById("fileInput").files[0];  // get a reference to the selected file
     var reader = new FileReader(); // create a file reader
@@ -544,7 +547,7 @@ input.addEventListener('change', ()=>{
         //Validate the File Height and Width.
         image.onload = function () {
             document.querySelector('.cat-style-1-img1').remove
-            console.log(this)
+            //this is the image
             var imgHeight = this.height;
             var imgWidth = this.width;
             canvas.width = imgWidth
@@ -556,35 +559,35 @@ input.addEventListener('change', ()=>{
                 canvas.style.width = '280px'
                 canvas.style.height = 'auto'
             }
-            var ctx = canvas.getContext("2d");
+            let ctx = canvas.getContext("2d");
             // var img = document.getElementById("example-img");
             ctx.drawImage(image, 0, 0);
-            console.log(canvas)
             // var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            canvas.toBlob(function(blob) {
-                // let previewDiv = document.querySelector('.preview')
-                var blobImage = new Image();
-                var urlCreator = window.URL || window.webkitURL;
-                let blobImageURL = urlCreator.createObjectURL(blob)
-                // console.log(blobImageURL)
-                // console.log(blob)
-                blobImage.src = blobImageURL
-                // previewDiv.append(blobImage)
+            //start here --------------------------------------------------
+            // canvas.toBlob(function(blob) {
+            //     let previewDiv = document.querySelector('.preview2')
+            //     var blobImage = new Image();
+            //     var urlCreator = window.URL || window.webkitURL;
+            //     let blobImageURL = urlCreator.createObjectURL(blob)
+            //     blobImage.src = blobImageURL
+            //     previewDiv.append(blobImage)
                
 
-                const cropper = new Cropper(canvas, {
+                let cropper = new Cropper(canvas, {
                         aspectRatio: 56 / 65,
                         // autoCrop: false,
                         preview: '.preview',
                         ready() {
+                                let imageForServer;
                                 cropBtnTwo.addEventListener('click', ()=>{
                                     let newImg = new Image();
                                     newImg.src = cropper.getCroppedCanvas().toDataURL('image/jpeg')
-                                    let resizedImgCanvas = downScaleCanvas(newImg)
-
+                                    //get the cropped imaged from cropper canvas and then resize it with the function downScaleCanvas()
+                                    let tryThis = cropper.getCroppedCanvas()
+                                    let resizedImgCanvas = downScaleCanvas(newImg, tryThis)
                                     resizedImgCanvas.toBlob(function(blob) {
-                                        // debugger
-                                        let previewDiv = document.querySelector('.preview')
+                                        imageForServer = blob
+                                        let previewDiv = document.querySelector('.preview2')
                                         var resizedblobImage = new Image();
                                         var urlCreator = window.URL || window.webkitURL;
                                         let resizedblobImageURL = urlCreator.createObjectURL(blob)
@@ -592,12 +595,20 @@ input.addEventListener('change', ()=>{
                                         // console.log(resizedblobImage)
                                         // console.log(resizedblobImageURL)
                                         previewDiv.append(resizedblobImage)
-                                    // previewDiv.append(resizedImg) 
+                                        // previewDiv.append(resizedImg) 
                                     })
                                 })
-                                console.log('added end function')
                                 endBtn.addEventListener('click', ()=>{
-                                    console.log('wuh')
+
+                                    //upload image to server
+                                    var fd = new FormData();
+                                    fd.append('image', imageForServer, 'success.jpg');
+
+                                    const options= {
+                                        method: 'POST',
+                                        body: fd
+                                    }
+                                    fetch('/admin-upload', options)
                                     canvas.width = 282
                                     canvas.height = 282
                                     var context = canvas.getContext('2d');
@@ -607,7 +618,7 @@ input.addEventListener('change', ()=>{
                         },
                 });
 
-            });
+            // });
             // console.log(imgData)
             
         }
@@ -615,22 +626,21 @@ input.addEventListener('change', ()=>{
     };
     reader.readAsDataURL(file); // this loads the file as a data url calling the function above once done
 })
-const downScaleCanvas = (canvas) => {
+const downScaleCanvas = (imgElement, tryThis) => {
+    // imgElement.classList.remove('example-img')
 
-    canvas.classList.remove('example-img')
-
-    const scaledCanvas = document.createElement('canvas');
+    let scaledCanvas = document.createElement('canvas');
     
     
-    let strDataURI = canvas.src
-    var ctx = scaledCanvas.getContext('2d');
-    var img = new Image;
-    img.onload = function(){
+    // let strDataURI = imgElement.src
+    let ctx = scaledCanvas.getContext('2d');
+    let img = new Image;
+    // img.onload = function(){
         scaledCanvas.width = 98.22
         scaledCanvas.height = 114
-        ctx.drawImage(img,0,0,98.22,114); // Or at whatever offset you like
-    };
-    img.src = strDataURI;
+        ctx.drawImage(tryThis,0,0,98.22,114); // Or at whatever offset you like
+    // };
+    // img.src = strDataURI;
 
 
 
@@ -648,6 +658,7 @@ const downScaleCanvas = (canvas) => {
     // ctx.drawImage(scaledCanvas, 0, 0);
 
     let previewDiv2 = document.querySelector('.preview2')
+
     previewDiv2.append(scaledCanvas)
    
     return scaledCanvas;
