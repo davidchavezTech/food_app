@@ -9,36 +9,26 @@
     
         <div class="upload-buttons-main-cont">
             <div class="upload-buttons-conts">
-                <div class="upload-imgs-btns" id='crop-btn-two'>Crop</div>
-                <div class="upload-imgs-btns" id='end'>End</div>
+                {{!-- <div class="upload-imgs-btns" id='crop-btn-two'>Crop</div>
+                <div class="upload-imgs-btns" id='end'>End</div> --}}
                 <label for="fileInput" class="upload-imgs-btns" id="upload-btn">Upload Image</label>
                 <input type="file" id="fileInput" name="image">
             </div>
         </div>
-        <div class="preview2"></div>
+        {{!-- <div class="preview2"></div> --}}
         <div class="category-container-preview center-text" id="dynamic-template">
-                            <div class='images-cont-preview'>
-                                <img class="cat-style-1-img1" id="img-one-to-change" src="img/cat-images/cat-style-1-img1.jpg">
-                                <div class="preview" style='display:inline-block;position:absolute;'></div>
-                                <img class="cat-style-1-img2" src="img/cat-images/cat-style-1-img2.jpg">
-                                <img class="cat-style-1-template-left" src="img/cat-images/cat-style-1-template-left.png">
-                                <img class="cat-style-1-template-right" src="img/cat-images/cat-style-1-template-right.png">
-                                <div class="cat-text-container">
-                                    <p class="cat-title1"></p>
-                                    <p class="cat-subtitle1"></p>
-                                </div>
-                            </div>
         </div>
     </div>
     <div class="lighten blurr">
+        <div id="add-cat-cont" style="display:none;"></div>
         <div class="categories-cont">
         {{#each categories}}
-            {{#isEqualToOne order_number}}
+            {{#isEqualToOne category_type}}
                     {{#if answer}}
                         <a href="#" class="category-container" id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}" draggable="true">
                             <div class='images-cont'>
-                                <img class="cat-style-1-img1" src="img/cat-images/cat-style-1-img1.jpg">
-                                <img class="cat-style-1-img2" src="img/cat-images/cat-style-1-img2.jpg">
+                                <img id="cat-1_image-1" class="cat-style-1-img1" src="uploads/{{../id}}.cat-1_img-1.jpg">
+                                <img id="cat-1_image-2" class="cat-style-1-img2" src="uploads/{{../id}}.cat-1_img-2.jpg">
                                 <img class="cat-style-1-template-left" src="img/cat-images/cat-style-1-template-left.png" style="pointer-events:none">
                                 <img class="cat-style-1-template-right" src="img/cat-images/cat-style-1-template-right.png" style="pointer-events:none">
                                 <img id="cat-1-dot-1" class="cat-style-1-template-dot-left dot" style="display:none;cursor:pointer" src="img/edit-dot.svg">
@@ -51,13 +41,13 @@
                         </a>
                     {{/if}}
             {{/isEqualToOne}}
-            {{#isEqualToTwo order_number}}
+            {{#isEqualToTwo category_type}}
                     {{#if answer}}
                         <a href="#" class="category-container" id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}" draggable="true">
                             <div class='images-cont'>
-                                <img class="cat-style-1-img1" src="img/cat-images/cat-style-2-img.jpg">
+                                <img id="cat-2_image" class="cat-style-1-img1" src="uploads/{{../id}}.cat-2_img.jpg">
                                 <img class="cat-style-1-template-left" src="img/cat-images/cat-style-2-template.png"  style="pointer-events:none">
-                                <img class="cat-style-2-template-dot-left dot" style="display:none;cursor:pointer" src="img/edit-dot.svg">
+                                <img id="cat-2-dot" class="cat-style-2-template-dot-left dot" style="display:none;cursor:pointer" src="img/edit-dot.svg">
                                 <div class="cat-text-container-style-2">
                                     <p class="cat-title2" style="top: 10px; left:210px;">{{../Title}}</p>
                                     <p class="cat-subtitle2" style="top: 70px; left:190px;">{{../Subtitle}}</p>
@@ -66,13 +56,13 @@
                         </a>
                     {{/if}}
             {{/isEqualToTwo}}
-            {{#isEqualToThree order_number}}
+            {{#isEqualToThree category_type}}
                     {{#if answer}}
                         <a href="#" class="category-container" id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}" draggable="true">
                             <div class='images-cont'>
-                                <img class="cat-style-3-img" src="img/cat-images/cat-style-3-img.jpg">
+                                <img id="cat-3_image" class="cat-style-3-img" src="uploads/{{../id}}.cat-3_img.jpg">
                                 <img class="cat-style-1-template-left" src="img/cat-images/cat-style-3-template.png">
-                                <img class="cat-style-3-template-dot-right dot" style="display:none;cursor:pointer" src="img/edit-dot.svg">
+                                <img id="cat-3-dot" class="cat-style-3-template-dot-right dot" style="display:none;cursor:pointer" src="img/edit-dot.svg">
                                 <div class="cat-text-container-style-3">
                                     <p class="cat-title3" style="top: 10px; left:20px;">{{../Title}}</p>
                                     <p class="cat-subtitle3" style="top: 80px; left:0px;">{{../Subtitle}}</p>
@@ -81,17 +71,17 @@
                         </a>
                     {{/if}}
             {{/isEqualToThree}}
-            {{#isEqualToFour order_number}}
+            {{#isEqualToFour category_type}}
                     {{#if answer}}
                         <a href="#" class="category-container"  id="{{../id}}" order="{{@index}}" category_type="{{../category_type}}" draggable="true">
                             <div class='images-cont'>
-                                <img class="cat-style-4-img1" src="img/cat-images/cat-style-4-img1.jpg">
-                                <img class="cat-style-4-img2" src="img/cat-images/cat-style-4-img2.jpg">
-                                <img class="cat-style-4-img3" src="img/cat-images/cat-style-4-img3.jpg">
+                                <img id="cat-4_image-1" class="cat-style-4-img1" src="uploads/{{../id}}.cat-4_img-1.jpg">
+                                <img id="cat-4_image-2" class="cat-style-4-img2" src="uploads/{{../id}}.cat-4_img-2.jpg">
+                                <img id="cat-4_image-3" class="cat-style-4-img3" src="uploads/{{../id}}.cat-4_img-3.jpg">
                                 <img class="cat-style-4-template" src="img/cat-images/cat-style-4-template.png">
-                                <img class="cat-style-4-template-dot-1 dot" style="display:none;cursor:pointer" src="img/edit-dot.svg">
-                                <img class="cat-style-4-template-dot-2 dot" style="display:none;cursor:pointer" src="img/edit-dot.svg">
-                                <img class="cat-style-4-template-dot-3 dot" style="display:none;cursor:pointer" src="img/edit-dot.svg">
+                                <img id="cat-4-dot" class="cat-style-4-template-dot-1 dot" style="display:none;cursor:pointer" src="img/edit-dot.svg">
+                                <img id="cat-4-dot" class="cat-style-4-template-dot-2 dot" style="display:none;cursor:pointer" src="img/edit-dot.svg">
+                                <img id="cat-4-dot" class="cat-style-4-template-dot-3 dot" style="display:none;cursor:pointer" src="img/edit-dot.svg">
                                 <div class="cat-text-container-style-4" >
                                     <p class="cat-title4" style="top: 38px; left:110px;">{{../Title}}</p>
                                     <p class="cat-subtitle4" style="top: 90px; left:110px;">{{../Subtitle}}</p>
@@ -107,7 +97,7 @@
     <img src="img/edit.svg" class="editSVG">
     <img src="img/camera.svg" class="cameraSVG">
     <img src="img/move.svg" class="moveSVG">
-    <img src="img/add.svg" class="addSVG">
+    <img src="img/add.svg" id="add-category" class="addSVG">
     <img src="img/delete.svg" class="deleteSVG">
 <script src="js/admin-cat.js"></script>
 <script src="js/admin-drag-categories.js"></script>

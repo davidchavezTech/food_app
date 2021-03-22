@@ -18,7 +18,15 @@ let imgContainers = document.querySelectorAll('.images-cont')
 let newArray = Array.from(categoryContainers)
 var cancelVariablesDic = {}
 let textElements;
-
+let imgID;
+let imgCatType;
+let imgName;
+let imageForServer;
+let cropperAspectRatio;
+let setImageWidth;
+let setImageHeight;
+let addCategorySelection;
+let deleteProceed;
 
 //If enter is pressed, lose input focus.
 function isMobile() {
@@ -260,35 +268,419 @@ container.addEventListener('click', (e)=>{
         dotsSVGs.forEach(dotsSVG =>{
             //Replace display:none so that these dots are visible
             dotsSVG.style.display = 'block'
+            // Make the X (cancel button) reload the page
+            document.getElementById('cancel-camera').addEventListener('click', ()=>{
+                location.reload()
+            })
             dotsSVG.addEventListener('click', (dot)=>{
-                //Get title's text and position
-                let titleVar = dot.target.parentElement.lastElementChild.children[0].innerHTML
-                let titleVarY = dot.target.parentElement.lastElementChild.children[0].style.top
-                let titleVarX = dot.target.parentElement.lastElementChild.children[0].style.left
-                //Set title's text and position
-                dynamicTemplate.children[0].lastElementChild.children[0].innerHTML = titleVar
-                dynamicTemplate.children[0].lastElementChild.children[0].style.top = titleVarY
-                dynamicTemplate.children[0].lastElementChild.children[0].style.left = titleVarX
-                //Get subtitle's text and position
-                let subtitleVar = dot.target.parentElement.lastElementChild.children[1].innerHTML
-                let subtitleVarY = dot.target.parentElement.lastElementChild.children[1].style.top
-                let subtitleVarX = dot.target.parentElement.lastElementChild.children[1].style.left
-                //Set subtitle's text and position
-                dynamicTemplate.children[0].lastElementChild.children[1].innerHTML = subtitleVar
-                dynamicTemplate.children[0].lastElementChild.children[1].style.top = subtitleVarY
-                dynamicTemplate.children[0].lastElementChild.children[1].style.left = subtitleVarX
-                
-                uploadPhotoCont.style.display = 'block'
+                document.getElementById('commit-camera').style.opacity = 0.5
+                if(dot.target.id=='cat-1-dot-1'){
+                    setImageWidth = 98.22
+                    cropperAspectRatio = 56 / 65
+                    imgID = dot.target.parentElement.parentElement.id
+                    //get the source of the image from the dot we clicked on:
+                    let imgSRC = dot.target.parentElement.children[0].src
+                    let siblingsImgSRC = dot.target.parentElement.children[1].src
+                    //Remove the whole root URL and only keep the name of the image
+                    // var parts = imgSRC.split("/");
+                    // imgName = parts[parts.length - 1]
+                    imgName = imgID + ".cat-1_img-1.jpg"
+                    //load the whole cat div
+                    dynamicTemplate.innerHTML = `
+                        <div class='images-cont-preview' style="position:relative">
+                            <div class='preview' style="position:absolute;left:0;top:0;width:98px;height:100%;display:inline-block;">
+                                <img class="cat-style-1-img1" src="` + imgSRC + `">
+                            </div>
+                            
+                            <img class="cat-style-1-img2" src="`+ siblingsImgSRC + `">
+                            
+                            <img class="cat-style-1-template-left" src="img/cat-images/cat-style-1-template-left.png" style="pointer-events:none">
+                            <img class="cat-style-1-template-right" src="img/cat-images/cat-style-1-template-right.png" style="pointer-events:none">
+                            <div class="cat-text-container">
+                                <p class="cat-title1"></p>
+                                <p class="cat-subtitle1"></p>
+                            </div>
+                        </div>
+                    `
+                    
+                    //Get the text and style from the original cat div and copy it to the preview cat div
+                    //Get title's text and position
+                    let titleVar = dot.target.parentElement.lastElementChild.children[0].innerHTML
+                    let titleVarY = dot.target.parentElement.lastElementChild.children[0].style.top
+                    let titleVarX = dot.target.parentElement.lastElementChild.children[0].style.left
+                    //Set title's text and position
+                    dynamicTemplate.children[0].lastElementChild.children[0].innerHTML = titleVar
+                    dynamicTemplate.children[0].lastElementChild.children[0].style.top = titleVarY
+                    dynamicTemplate.children[0].lastElementChild.children[0].style.left = titleVarX
+                    //Get subtitle's text and position
+                    let subtitleVar = dot.target.parentElement.lastElementChild.children[1].innerHTML
+                    let subtitleVarY = dot.target.parentElement.lastElementChild.children[1].style.top
+                    let subtitleVarX = dot.target.parentElement.lastElementChild.children[1].style.left
+                    //Set subtitle's text and position
+                    dynamicTemplate.children[0].lastElementChild.children[1].innerHTML = subtitleVar
+                    dynamicTemplate.children[0].lastElementChild.children[1].style.top = subtitleVarY
+                    dynamicTemplate.children[0].lastElementChild.children[1].style.left = subtitleVarX
+                    
+                    uploadPhotoCont.style.display = 'block'
+                }else if(dot.target.id=='cat-1-dot-2'){
+                        setImageWidth = 98.22
+                        cropperAspectRatio = 56 / 65
+
+                        document.getElementById('commit-camera').style.opacity = 0.5
+                        imgID = dot.target.parentElement.parentElement.id
+                        //get the source of the image from the dot we clicked on:
+                        let imgSRC = dot.target.parentElement.children[1].src
+                        let siblingsImgSRC = dot.target.parentElement.children[0].src
+                        //Remove the whole root URL and only keep the name of the image
+                        // var parts = imgSRC.split("/");
+                        // imgName = parts[parts.length - 1]
+                        imgName = imgID + ".cat-1_img-2.jpg"
+                        //load the whole cat div
+                        dynamicTemplate.innerHTML = `
+                            <div class='images-cont-preview'>
+                                <img class="cat-style-1-img1" src="` + siblingsImgSRC + `">
+                                <div class='preview' style="position:absolute;right:0;top:0;width:98px;height:100%;display:inline-block;">
+                                    <img class="cat-style-1-img2" src="` + imgSRC + `">
+                                </div>
+                                <img class="cat-style-1-template-left" src="img/cat-images/cat-style-1-template-left.png" style="pointer-events:none">
+                                <img class="cat-style-1-template-right" src="img/cat-images/cat-style-1-template-right.png" style="pointer-events:none">
+                                <div class="cat-text-container">
+                                    <p class="cat-title1"></p>
+                                    <p class="cat-subtitle1"></p>
+                                </div>
+                            </div>
+                        `
+                        //Get the text and style from the original cat div and copy it to the preview cat div
+                        //Get title's text and position
+                        let titleVar = dot.target.parentElement.lastElementChild.children[0].innerHTML
+                        let titleVarY = dot.target.parentElement.lastElementChild.children[0].style.top
+                        let titleVarX = dot.target.parentElement.lastElementChild.children[0].style.left
+                        //Set title's text and position
+                        dynamicTemplate.children[0].lastElementChild.children[0].innerHTML = titleVar
+                        dynamicTemplate.children[0].lastElementChild.children[0].style.top = titleVarY
+                        dynamicTemplate.children[0].lastElementChild.children[0].style.left = titleVarX
+                        //Get subtitle's text and position
+                        let subtitleVar = dot.target.parentElement.lastElementChild.children[1].innerHTML
+                        let subtitleVarY = dot.target.parentElement.lastElementChild.children[1].style.top
+                        let subtitleVarX = dot.target.parentElement.lastElementChild.children[1].style.left
+                        //Set subtitle's text and position
+                        dynamicTemplate.children[0].lastElementChild.children[1].innerHTML = subtitleVar
+                        dynamicTemplate.children[0].lastElementChild.children[1].style.top = subtitleVarY
+                        dynamicTemplate.children[0].lastElementChild.children[1].style.left = subtitleVarX
+                        
+                        uploadPhotoCont.style.display = 'block'
+                    }else if(dot.target.id=='cat-2-dot'){
+                        //setImageWidth is the parameter we will be passing for the function that resizes the cropped canvas. This will set the width for the resized image sent to the server
+                        setImageWidth = 221
+                        cropperAspectRatio = setImageWidth / 114
+                        document.getElementById('commit-camera').style.opacity = 0.5
+                        imgID = dot.target.parentElement.parentElement.id
+                        //get the source of the image from the dot we clicked on:
+                        let imgSRC = dot.target.parentElement.children[0].src
+                        //Remove the whole root URL and only keep the name of the image
+                        // var parts = imgSRC.split("/");
+                        imgName = imgID + ".cat-2_img.jpg"
+                        //load the whole cat div
+                        dynamicTemplate.innerHTML = `
+                            <div class='images-cont-preview' style="position:relative">
+
+                                <div class='preview' style="position:absolute;left:0;top:0;display:inline-block;width:300px;height:100%;">
+                                    <img class="cat-style-1-img1" src="` + imgSRC + `">
+                                </div>
+                                <img class="cat-style-1-template-left" src="img/cat-images/cat-style-2-template.png"  style="pointer-events:none">
+                                <div class="cat-text-container-style-2">
+                                    <p class="cat-title2" style="top: 10px; left:210px;"></p>
+                                    <p class="cat-subtitle2" style="top: 70px; left:190px;"></p>
+                                </div>
+                            </div>
+                        `
+                        
+                        //Get the text and style from the original cat div and copy it to the preview cat div
+                        //Get title's text and position
+                        let titleVar = dot.target.parentElement.lastElementChild.children[0].innerHTML
+                        let titleVarY = dot.target.parentElement.lastElementChild.children[0].style.top
+                        let titleVarX = dot.target.parentElement.lastElementChild.children[0].style.left
+                        //Set title's text and position
+                        dynamicTemplate.children[0].lastElementChild.children[0].innerHTML = titleVar
+                        dynamicTemplate.children[0].lastElementChild.children[0].style.top = titleVarY
+                        dynamicTemplate.children[0].lastElementChild.children[0].style.left = titleVarX
+                        //Get subtitle's text and position
+                        let subtitleVar = dot.target.parentElement.lastElementChild.children[1].innerHTML
+                        let subtitleVarY = dot.target.parentElement.lastElementChild.children[1].style.top
+                        let subtitleVarX = dot.target.parentElement.lastElementChild.children[1].style.left
+                        //Set subtitle's text and position
+                        dynamicTemplate.children[0].lastElementChild.children[1].innerHTML = subtitleVar
+                        dynamicTemplate.children[0].lastElementChild.children[1].style.top = subtitleVarY
+                        dynamicTemplate.children[0].lastElementChild.children[1].style.left = subtitleVarX
+                        
+                        uploadPhotoCont.style.display = 'block'
+                    }else if(dot.target.id=='cat-3-dot'){
+                        //setImageWidth is the parameter we will be passing for the function that resizes the cropped canvas. This will set the width for the resized image sent to the server
+                        setImageWidth = 270
+                        cropperAspectRatio = setImageWidth / 114
+                        document.getElementById('commit-camera').style.opacity = 0.5
+                        imgID = dot.target.parentElement.parentElement.id
+                        //get the source of the image from the dot we clicked on:
+                        let imgSRC = dot.target.parentElement.children[0].src
+                        // //Remove the whole root URL and only keep the name of the image
+                        // var parts = imgSRC.split("/");
+                        imgName = imgID + ".cat-3_img.jpg"
+                        //load the whole cat div
+                        dynamicTemplate.innerHTML = `
+
+                            <div class='images-cont-preview' style="position:relative">
+                                <div class='preview' style="position:absolute;right:0;top:0;display:inline-block;width:270px;height:100%;">
+                                    <img class="cat-style-3-img" src="` + imgSRC + `">
+                                </div>
+                                <img class="cat-style-1-template-left" src="img/cat-images/cat-style-3-template.png">
+                                <div class="cat-text-container-style-3">
+                                    <p class="cat-title3" style="top: 10px; left:20px;">{{../Title}}</p>
+                                    <p class="cat-subtitle3" style="top: 80px; left:0px;">{{../Subtitle}}</p>
+                                </div>
+                            </div>
+                        `
+                        //Get the text and style from the original cat div and copy it to the preview cat div
+                        //Get title's text and position
+                        let titleVar = dot.target.parentElement.lastElementChild.children[0].innerHTML
+                        let titleVarY = dot.target.parentElement.lastElementChild.children[0].style.top
+                        let titleVarX = dot.target.parentElement.lastElementChild.children[0].style.left
+                        //Set title's text and position
+                        dynamicTemplate.children[0].lastElementChild.children[0].innerHTML = titleVar
+                        dynamicTemplate.children[0].lastElementChild.children[0].style.top = titleVarY
+                        dynamicTemplate.children[0].lastElementChild.children[0].style.left = titleVarX
+                        //Get subtitle's text and position
+                        let subtitleVar = dot.target.parentElement.lastElementChild.children[1].innerHTML
+                        let subtitleVarY = dot.target.parentElement.lastElementChild.children[1].style.top
+                        let subtitleVarX = dot.target.parentElement.lastElementChild.children[1].style.left
+                        //Set subtitle's text and position
+                        dynamicTemplate.children[0].lastElementChild.children[1].innerHTML = subtitleVar
+                        dynamicTemplate.children[0].lastElementChild.children[1].style.top = subtitleVarY
+                        dynamicTemplate.children[0].lastElementChild.children[1].style.left = subtitleVarX
+                        
+                        uploadPhotoCont.style.display = 'block'
+                    }else if(dot.target.id=='cat-4-dot'){
+                        let image1;
+                        let image2;
+                        let image3;
+                        document.getElementById('commit-camera').style.opacity = 0.5
+                        imgID = dot.target.parentElement.parentElement.id
+                        
+                        if(dot.target.classList.contains("cat-style-4-template-dot-1")){
+                            let imgSRC = dot.target.parentElement.children[0].src
+                            let siblingTwoImgSRC = dot.target.parentElement.children[1].src
+                            let siblingthreeImgSRC = dot.target.parentElement.children[2].src
+                            //setImageWidth is the parameter we will be passing for the function that resizes the cropped canvas. This will set the width for the resized image sent to the server
+                            setImageWidth = 59
+                            setImageHeight = 103
+
+                            imgName = imgID + ".cat-4_img-1.jpg"
+
+                            image1 = `
+                                <div class='preview' style="position:absolute;left: 15%;height: 90%;bottom: 0;display:inline-block;width:auto;width:59px">
+                                    <img class="cat-style-4-img1" src="` + imgSRC + `">
+                                </div>
+                            `
+                            image2 = `
+                                <img class="cat-style-4-img2" src="` + siblingTwoImgSRC + `">
+                            `
+                            image3 =`
+                                <img class="cat-style-4-img3" src="` + siblingthreeImgSRC + `">
+                            `
+                        }else if(dot.target.classList.contains("cat-style-4-template-dot-2")){
+                            let siblingOneImgSRC = dot.target.parentElement.children[0].src
+                            let imgSRC = dot.target.parentElement.children[1].src
+                            let siblingthreeImgSRC = dot.target.parentElement.children[2].src
+                            //setImageWidth is the parameter we will be passing for the function that resizes the cropped canvas. This will set the width for the resized image sent to the server
+                            setImageWidth = 63
+                            setImageHeight = 91
+
+                            imgName = imgID + ".cat-4_img-2.jpg"
+
+                            image1 = `
+                                    <img class="cat-style-4-img1" src="` + siblingOneImgSRC + `">
+                            `
+                            image2 = `
+                                <div class='preview' style="position:absolute;left: 39%;height: 80%;display:inline-block;width:63px;">
+                                    <img class="cat-style-4-img2" src="` + imgSRC + `">
+                                </div>
+                            `
+                            image3 =`
+                                <img class="cat-style-4-img3" src="` + siblingthreeImgSRC + `">
+                            `
+                        }else if(dot.target.classList.contains("cat-style-4-template-dot-3")){
+                            let siblingOneImgSRC = dot.target.parentElement.children[0].src
+                            let siblingTwoImgSRC = dot.target.parentElement.children[1].src
+                            let imgSRC = dot.target.parentElement.children[2].src
+                            //setImageWidth is the parameter we will be passing for the function that resizes the cropped canvas. This will set the width for the resized image sent to the server
+                            setImageWidth = 59
+                            setImageHeight = 103
+
+                            imgName = imgID + ".cat-4_img-3.jpg"
+
+                            image1 = `
+                                    <img class="cat-style-4-img1" src="` + siblingOneImgSRC + `">
+                            `
+                            image2 = `
+                                
+                                    <img class="cat-style-4-img2" src="` + siblingTwoImgSRC + `">
+                                
+                            `
+                            image3 =`
+                                <div class='preview' style="position:absolute;right: 15%;height: 90%;bottom:0;display:inline-block;width:59px;">
+                                    <img class="cat-style-4-img3" src="` + imgSRC + `">
+                                </div>
+                            `
+                        }
+                        //load the whole cat div
+                        dynamicTemplate.innerHTML = `
+                            <div class='images-cont-preview' style="position:relative">` +
+                                image1 +
+                                image2 + 
+                                image3 + 
+                                `<img class="cat-style-4-template" src="img/cat-images/cat-style-4-template.png">
+                                <div class="cat-text-container-style-4" >
+                                    <p class="cat-title4" style=""></p>
+                                    <p class="cat-subtitle4" style=""></p>
+                                </div>
+                            </div>
+                        `
+                        cropperAspectRatio = setImageWidth / setImageHeight
+
+                        //Get the text and style from the original cat div and copy it to the preview cat div
+                        //Get title's text and position
+                        let titleVar = dot.target.parentElement.lastElementChild.children[0].innerHTML
+                        let titleVarY = dot.target.parentElement.lastElementChild.children[0].style.top
+                        let titleVarX = dot.target.parentElement.lastElementChild.children[0].style.left
+                        //Set title's text and position
+                        dynamicTemplate.children[0].lastElementChild.children[0].innerHTML = titleVar
+                        dynamicTemplate.children[0].lastElementChild.children[0].style.top = titleVarY
+                        dynamicTemplate.children[0].lastElementChild.children[0].style.left = titleVarX
+                        //Get subtitle's text and position
+                        let subtitleVar = dot.target.parentElement.lastElementChild.children[1].innerHTML
+                        let subtitleVarY = dot.target.parentElement.lastElementChild.children[1].style.top
+                        let subtitleVarX = dot.target.parentElement.lastElementChild.children[1].style.left
+                        //Set subtitle's text and position
+                        dynamicTemplate.children[0].lastElementChild.children[1].innerHTML = subtitleVar
+                        dynamicTemplate.children[0].lastElementChild.children[1].style.top = subtitleVarY
+                        dynamicTemplate.children[0].lastElementChild.children[1].style.left = subtitleVarX
+
+                        uploadPhotoCont.style.display = 'block'
+                    }
             })
         })
         
     }
-    function closeDragElement() {
-        /* stop moving when mouse button is released:*/
-        mobile == true ? document.ontouchmove = null : document.onmousemove = null
-        mobile == true ? document.ontouchend = null : document.onmouseup = null                
+    else if(e.target.id == "add-category"){
+        document.querySelector('.deleteSVG').addEventListener('click', ()=>{
+            location.reload()
+        })
+        document.querySelector('.categories-cont').style.display = 'none'
+        enableConfirmAndCancelBtns('new-category')
+        let templateContainer = document.querySelector('#add-cat-cont')
+        templateContainer.style.display = 'block'
+        templateContainer.innerHTML = `
+        <div class="add-cat-title">
+                <span>Choose a Template</span>
+        </div>
+
+        <div style="display:flex;" cat-type="1">
+            <img src="img/cat-images/cat-1_template.png" class="cat-template-img">
+            <img src="img/radio-empty.svg" class="radio-btn" id="cat-selected-1">
+        </div>
+
+        <div style="display:flex;" cat-type="2">
+            <img src="img/cat-images/cat-2_template.png" class="cat-template-img">
+            <img src="img/radio-empty.svg" class="radio-btn" id="cat-selected-2">
+        </div>
+
+        <div style="display:flex;" cat-type="3">
+            <img src="img/cat-images/cat-3_template.png" class="cat-template-img">
+            <img src="img/radio-empty.svg" class="radio-btn" id="cat-selected-3">
+        </div>
+
+        <div style="display:flex;" cat-type="4">
+            <img src="img/cat-images/cat-4_template.png" class="cat-template-img">
+            <img src="img/radio-empty.svg" class="radio-btn" id="cat-selected-4">
+        </div>
+        `
+        let radioBtns = document.querySelectorAll('.radio-btn')
+        function deselectRadioBtns(){
+            radioBtns.forEach(btn =>{
+                btn.src = 'img/radio-empty.svg'
+            })
+        }
+        radioBtns.forEach( btn =>{
+            btn.addEventListener('click',(e)=>{
+                deselectRadioBtns()
+                e.target.src = 'img/radio-selected.svg'
+                e.target.id = 'selected-radio'
+            })
+        })
+    }else if(e.target.id == "commit-new-category"){
+        addCategorySelection = document.querySelector('#selected-radio').parentElement.getAttribute('cat-type')
+        var fd = new FormData();
+        fd.append('category-type-selected', addCategorySelection);
+
+        const options= {
+            method: 'POST',
+            body: fd
+        }
+        fetch('/admin-upload', options).then(res => res.json()
+            .then(data => ({
+                data: data,
+                status: res.status
+            })
+        ).then(res => {
+        // console.log(res.status, res.data)
+        if(res.data["Response"]){
+            location.reload()
+        }
+    })
+    ).catch(err => console.log(err));
+    }else if(e.target.classList[0] == "deleteSVG"){
+        if(!deleteProceed){
+            deleteProceed=1
+            enableConfirmAndCancelBtns('delete')
+            let containers = document.querySelectorAll('.category-container')
+            containers.forEach(container =>{
+                container.style.marginLeft = '-16px'
+                let check = document.createElement('img')
+                let newContainer = document.createElement('div')
+                newContainer.classList = 'check-container'
+                check.classList.add('checks')
+                check.id = ('unchecked')
+                check.src = 'img/check-empty.svg'
+                container.append(newContainer)
+                newContainer.append(newContainer.previousElementSibling)
+                container.append(check)
+            })
+            let checks = document.querySelectorAll('.checks')
+            checks.forEach(check =>{
+                check.addEventListener('click', (e)=>{
+                    if(e.target.id=='unchecked'){
+                        e.target.src = 'img/check-checked.svg'
+                        e.target.id='checked'
+                    }else{
+                        e.target.src = 'img/check-empty.svg'
+                        e.target.id='unchecked'
+                    }
+                })
+            })
+            let confirmDeletion = document.querySelector('#commit-delete')
+            confirmDeletion.style.opacity=0.5
+            confirmDeletion.addEventListener('click',(e)=>{
+                console.log('damn')
+            })
+        }else{
+            location.reload()
+        }
     }
 })
+function closeDragElement() {
+    /* stop moving when mouse button is released:*/
+    mobile == true ? document.ontouchmove = null : document.onmousemove = null
+    mobile == true ? document.ontouchend = null : document.onmouseup = null                
+}
 function changePtoInput(array){
     
     var variable;
@@ -329,7 +721,6 @@ function changePtoInput(array){
                 let inputTitle = document.createElement('input')
                 inputTitle.classList = savedClass + ' title-edit';
                 inputTitle.setAttribute('maxlength', 11)
-                // debugger
                 inputTitle.style.left = titlePositionX + 'px'
                 inputTitle.style.top = titlePositionY + 'px'
                 inputTitle.value=title
@@ -463,7 +854,7 @@ function revertEditingBtns(){
     cameraBtn.style = "display:auto"
     moveBtn.id = ""
     moveBtn.style = "display:auto"
-    addBtn.id = ""
+    addBtn.id = "add-category"
     addBtn.style = "display:auto"
     deleteBtn.id = ""
     deleteBtn.style = "display:auto"
@@ -472,67 +863,14 @@ function revertEditingBtns(){
 function createVariables(variableName, i, value){
     cancelVariablesDic[variableName+i]=value
 }
-    
-    // const croppedImage = document.getElementById("img-one-to-change");
-    
-    // function cropping(){
-               
-    //     cropBtnOne.addEventListener('click', function test(){
-    //             cropper.startCropping()
-    //             cropBtnOne.innerHTML = 'Crop!'
-    //             cropBtnOne.removeEventListener('click', test)
-    //             cropBtnOne.addEventListener('click', function test2(){
-    //                 cropper.getCroppedImageSrc()
-    //                 cropBtnOne.innerHTML = 'Start Cropping again'
-    //                 cropBtnOne.removeEventListener('click', test2)
-    //                 // cropBtnOne = document.querySelector('#crop-btn-one')
-    //                 cropping()
-    //             })
-    //     })
-    // }cropping()
-//     const btn = document.querySelector('button')
-    //     btn.addEventListener('click', ()=>{
-
-    //         var canvas = document.getElementById('testCanvas');
-    //         // returns true if every pixel's uint32 representation is 0 (or "blank")
-    //         function isCanvasBlank(canvas) {
-                
-    //         const context = canvas.getContext('2d');
-
-    //         const pixelBuffer = new Uint32Array(
-    //             context.getImageData(0, 0, canvas.width, canvas.height).data.buffer
-    //         );
-            
-    //         return !pixelBuffer.some(color => color !== 0);
-    //         }
-    //         console.log(isCanvasBlank(canvas))
-    //         canvas.toBlob((blob) =>{
-    //             // var newImg = document.createElement('img'),
-    //             // url = URL.createObjectURL(blob);
-
-    //             //newImg.src = url;
-    //             //document.body.appendChild(newImg);
-    //             var fd = new FormData();
-    //             fd.append('image', blob, 'success.jpg');
-
-    //             const options= {
-    //                 method: 'POST',
-    //                 body: fd
-    //             }
-    //             fetch('/admin-upload', options)
-                
-    //     });
-    //     })
 let cropBtnTwo = document.querySelector('#crop-btn-two')
 let endBtn = document.querySelector('#end')
 let canvas = document.getElementById('cat-1-img-1-canvas')
 const croppedImage = document.getElementById("croppedImage");
 const input = document.getElementById("fileInput");
 
-
 input.addEventListener('change', ()=>{
-    
-    
+    document.getElementById('upload-btn').style.display = 'none'
     // this function will be called when the file input below is changed
     var file = document.getElementById("fileInput").files[0];  // get a reference to the selected file
     var reader = new FileReader(); // create a file reader
@@ -540,7 +878,6 @@ input.addEventListener('change', ()=>{
     reader.onload = function(event) {
         var data = event.target.result; // the "data url" of the image
         
-
         //create an image to get the dimensions of the uploaded image
         var image = new Image();
         image.src = event.target.result;     
@@ -562,105 +899,83 @@ input.addEventListener('change', ()=>{
             let ctx = canvas.getContext("2d");
             // var img = document.getElementById("example-img");
             ctx.drawImage(image, 0, 0);
-            // var imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            //start here --------------------------------------------------
-            // canvas.toBlob(function(blob) {
-            //     let previewDiv = document.querySelector('.preview2')
-            //     var blobImage = new Image();
-            //     var urlCreator = window.URL || window.webkitURL;
-            //     let blobImageURL = urlCreator.createObjectURL(blob)
-            //     blobImage.src = blobImageURL
-            //     previewDiv.append(blobImage)
-               
 
-                let cropper = new Cropper(canvas, {
-                        aspectRatio: 56 / 65,
-                        // autoCrop: false,
-                        preview: '.preview',
-                        ready() {
-                                let imageForServer;
-                                cropBtnTwo.addEventListener('click', ()=>{
-                                    let newImg = new Image();
-                                    newImg.src = cropper.getCroppedCanvas().toDataURL('image/jpeg')
-                                    //get the cropped imaged from cropper canvas and then resize it with the function downScaleCanvas()
-                                    let tryThis = cropper.getCroppedCanvas()
-                                    let resizedImgCanvas = downScaleCanvas(newImg, tryThis)
-                                    resizedImgCanvas.toBlob(function(blob) {
-                                        imageForServer = blob
-                                        let previewDiv = document.querySelector('.preview2')
-                                        var resizedblobImage = new Image();
-                                        var urlCreator = window.URL || window.webkitURL;
-                                        let resizedblobImageURL = urlCreator.createObjectURL(blob)
-                                        resizedblobImage.src = resizedblobImageURL
-                                        // console.log(resizedblobImage)
-                                        // console.log(resizedblobImageURL)
-                                        previewDiv.append(resizedblobImage)
-                                        // previewDiv.append(resizedImg) 
-                                    })
-                                })
-                                endBtn.addEventListener('click', ()=>{
-
-                                    //upload image to server
-                                    var fd = new FormData();
-                                    fd.append('image', imageForServer, 'success.jpg');
-
-                                    const options= {
-                                        method: 'POST',
-                                        body: fd
-                                    }
-                                    fetch('/admin-upload', options)
-                                    canvas.width = 282
-                                    canvas.height = 282
-                                    var context = canvas.getContext('2d');
-                                    context.clearRect(0, 0, canvas.width, canvas.height);
-                                    cropper.destroy()
-                                })
-                        },
+            //remove the previews image
+            document.querySelector('.preview').innerHTML = ''
+            let cropper = new Cropper(canvas, {
+                    aspectRatio: cropperAspectRatio,
+                    // autoCrop: false,
+                    preview: '.preview',
+                    ready() {
+                        //get the cropped imaged from cropper canvas and then resize it with the function downScaleCanvas()
+                        document.getElementById('commit-camera').style.opacity = 1
+                        document.getElementById('commit-camera').addEventListener('click', ()=>{
+                            
+                            let cropperCroppedImage = cropper.getCroppedCanvas()
+                            let resizedImgCanvas = downScaleCanvas(cropperCroppedImage, setImageWidth, setImageHeight)
+                            resizedImgCanvas.toBlob(function(blob) {
+                                //upload image to server
+                                var fd = new FormData();
+                                fd.append('image', blob, imgName);
+    
+                                const options= {
+                                    method: 'POST',
+                                    body: fd
+                                }
+                                fetch('/admin-upload', options).then(res => location.reload()).catch(err => console.log(err));
+                            })
+                        
+                        })
+                    },
                 });
-
-            // });
-            // console.log(imgData)
-            
         }
 
     };
     reader.readAsDataURL(file); // this loads the file as a data url calling the function above once done
 })
-const downScaleCanvas = (imgElement, tryThis) => {
-    // imgElement.classList.remove('example-img')
-
+const downScaleCanvas = (callbackImg, setImgWith, setImageHeight) => {
+    if(!setImageHeight){
+        setImageHeight = 114
+    }
     let scaledCanvas = document.createElement('canvas');
     
-    
-    // let strDataURI = imgElement.src
     let ctx = scaledCanvas.getContext('2d');
-    let img = new Image;
-    // img.onload = function(){
-        scaledCanvas.width = 98.22
-        scaledCanvas.height = 114
-        ctx.drawImage(tryThis,0,0,98.22,114); // Or at whatever offset you like
-    // };
-    // img.src = strDataURI;
 
+        scaledCanvas.width = setImgWith
+        scaledCanvas.height = setImageHeight
+        ctx.drawImage(callbackImg,0,0,setImgWith,setImageHeight); // positionX,positionY,offsetX,offsetY
 
-
-
-    
-    
-    
-    // scaledCanvas.style.height = '112px'
-    // scaledCanvas.style.width = '130px'
-    // scaledCanvas.style.backgroundColor = 'black'
-
-    // var ctx = scaledCanvas.getContext("2d");
-    // let lettuce = document.getElementById('findMe')
-    // // var img = document.getElementById("example-img");
-    // ctx.drawImage(scaledCanvas, 0, 0);
-
-    let previewDiv2 = document.querySelector('.preview2')
-
-    previewDiv2.append(scaledCanvas)
-   
     return scaledCanvas;
   };
 
+//replace missing images with the default ones
+window.addEventListener("load", event => {
+    let checkImages = document.querySelectorAll('img');
+    checkImages.forEach(image =>{
+        let isLoaded = image.complete && image.naturalHeight !== 0;
+        if (!isLoaded) {
+            switch (image.id) {
+                case 'cat-1_image-1':
+                  image.src = 'img/cat-images/cat-style-1-img1.jpg';
+                  break;
+                case 'cat-1_image-2':
+                  image.src = 'img/cat-images/cat-style-1-img2.jpg';
+                  break;
+                case 'cat-2_image':
+                   image.src = 'img/cat-images/cat-style-2-img.jpg';
+                  break;
+                case 'cat-3_image':
+                  image.src = 'img/cat-images/cat-style-3-img.jpg';
+                  break;
+                case 'cat-4_image-1':
+                  image.src = 'img/cat-images/cat-style-4-img1.jpg';
+                  break;
+                case 'cat-4_image-2':
+                  image.src = 'img/cat-images/cat-style-4-img2.jpg';
+                  break;
+                case 'cat-4_image-3':
+                  image.src = 'img/cat-images/cat-style-4-img3.jpg';
+              }
+        }
+    })
+});

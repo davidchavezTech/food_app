@@ -894,8 +894,8 @@ input[type="file"] {
 }
 .preview {
     overflow: hidden;
-    width: 98.22px; 
-    height: 114px;
+    // width: 98.22px; 
+    // height: 114px;
   }
 .cropper-container{
     border: solid 2px yellow;
@@ -909,4 +909,26 @@ input[type="file"] {
     width: 300px;
     margin: 20px auto;
     margin-left: 50px;
+}.add-cat-title{
+    margin-left: 38px;
+    background: rgb(248,11,55);
+    background: linear-gradient(90deg, rgba(248,11,55,1) 0%, rgba(255,162,52,1) 59%, rgba(252,211,22,1) 100%);
+    height: 50px;
+    width: 250px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}.cat-template-img{
+    width:324px;
+}.radio-btn{
+    cursor: pointer;
+    margin-left: 7px;
+    width:25px;
+}.checks{
+    width:25px;
+    margin-left: 11px;
 }
