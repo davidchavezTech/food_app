@@ -27,57 +27,89 @@ router.get('/categories', isLoggedIn, async (req, res) => {
     }
     res.render('navigation/categories', loopForCategories);
 });
-router.get('/cat-1', isLoggedIn, async (req, res) => {
-
-    let result = await pool.query('SELECT * FROM cat_1');
+router.get('/category/:categoryId', isLoggedIn, async (req, res) => {
+    const { categoryId } = req.params
+    let result = await pool.query(`SELECT * FROM cat_${categoryId}`);
     let loopForDishes = {
-        dishes: result
+        dishes: result,
+        category_number: categoryId
     }
     // console.log(loopForDishes)
-    res.render('navigation/categories/cat-1/cat-1', loopForDishes);
+    res.render(`navigation/categories/cat-generator`, loopForDishes);
 });
-router.get('/cat-1-dish-1', isLoggedIn, async (req, res) => {
 
-    let result = await pool.query('SELECT * FROM cat_1 WHERE id = 1');
-
+router.get('/category/:categoryId/:dishID', isLoggedIn, async (req, res) => {
+    const { categoryId, dishID } = req.params
+    let result = await pool.query(`SELECT * FROM cat_${categoryId} WHERE id = '${dishID}'`);
     const user = req.user
-    let likes_db_table_name = user[0].user_ID + "_" + user[0].name + "_" + user[0].last
-    likes_db_table_name = likes_db_table_name.toLowerCase();
-    let likes_db_result = await likes_db_connection.query('SELECT * FROM ' + likes_db_table_name + ' WHERE id = ' + user[0].user_ID);
+    // let likes_db_table_name = user[0].user_ID + "_" + user[0].name + "_" + user[0].last
+    // likes_db_table_name = likes_db_table_name.toLowerCase();
+    let likes_db_result = await likes_db_connection.query(`SELECT * FROM test_for_dish_1`);
     let data = {
-        dishes: result[0]
+        dishes: result[0],
+        category: categoryId,
+        likes_counter: likes_db_result[0].likes_counter
     }
     if(likes_db_result == ""){
         data.like_status = "empty"
     }
     else{
-        data.like_status = likes_db_result[0].like_status
+        //find out if current user likes this dish
+        usersWhoLikeCurrentDish = JSON.parse(likes_db_result[0].usersID_like_status)
+        for(let i=0;usersWhoLikeCurrentDish.length>i;i++){
+            if(usersWhoLikeCurrentDish[i].user_ID==user[0].user_ID){
+                data.like_status = usersWhoLikeCurrentDish[i].like_status;
+                i=usersWhoLikeCurrentDish.length;
+            }
+        }
     }
-    res.render('navigation/categories/cat-1/cat-1-dish-1', data);
+    //make price a float point number
+    data.dishes.price = parseFloat(data.dishes.price).toFixed(2)
+    res.render(`navigation/categories/dish-generator`, data);
 });
 
-router.get('/cat-1-dish-2', isLoggedIn, async (req, res) => {
+// router.get('/cat-1-dish-1', isLoggedIn, async (req, res) => {
 
-    let result = await pool.query('SELECT * FROM cat_1 WHERE id = 1');
+//     let result = await pool.query('SELECT * FROM cat_1 WHERE id = 1');
 
-    const user = req.user
-    let likes_db_table_name = user[0].user_ID + "_" + user[0].name + "_" + user[0].last
-    likes_db_table_name = likes_db_table_name.toLowerCase();
-    let likes_db_result = await likes_db_connection.query('SELECT * FROM ' + likes_db_table_name + ' WHERE id = ' + user[0].user_ID);
-    let data = {
-        dishes: result[0]
-    }
-    if(likes_db_result == ""){
-        data.like_status = "empty"
-    }
-    else{
-        data.like_status = likes_db_result[0].like_status
-    }
-    console.log(data)
-    console.log(result[0])
-    console.log(req.user)
-    res.render('navigation/categories/cat-1/cat-1-dish-2', data);
-});
+//     const user = req.user
+//     let likes_db_table_name = user[0].user_ID + "_" + user[0].name + "_" + user[0].last
+//     likes_db_table_name = likes_db_table_name.toLowerCase();
+//     let likes_db_result = await likes_db_connection.query('SELECT * FROM ' + likes_db_table_name + ' WHERE id = ' + user[0].user_ID);
+//     let data = {
+//         dishes: result[0]
+//     }
+//     if(likes_db_result == ""){
+//         data.like_status = "empty"
+//     }
+//     else{
+//         data.like_status = likes_db_result[0].like_status
+//     }
+//     res.render('navigation/categories/cat-1/cat-1-dish-1', data);
+// });
+
+// router.get('/cat-1-dish-2', isLoggedIn, async (req, res) => {
+
+//     let result = await pool.query('SELECT * FROM cat_1 WHERE id = 1');
+
+//     const user = req.user
+//     let likes_db_table_name = user[0].user_ID + "_" + user[0].name + "_" + user[0].last
+//     likes_db_table_name = likes_db_table_name.toLowerCase();
+//     let likes_db_result = await likes_db_connection.query('SELECT * FROM ' + likes_db_table_name + ' WHERE id = ' + user[0].user_ID);
+//     let data = {
+//         dishes: result[0]
+//     }
+//     if(likes_db_result == ""){
+//         data.like_status = "empty"
+//     }
+//     else{
+//         data.like_status = likes_db_result[0].like_status
+//     }
+//     console.log(data)
+//     console.log(result[0])
+//     console.log(req.user)
+//     res.render('navigation/categories/cat-1/cat-1-dish-2', data);
+// });
 router.get('/cart', isLoggedIn, (req, res) => {
     res.render('navigation/cart');
 });

@@ -21,6 +21,10 @@ helpers.isEqualToFour = (value, options)=>{
     let answer =  value == 4
     return options.fn({ answer })
 };
+helpers.add = (a, b)=>{
+    let answer =  a + b
+    return  answer 
+};
 
 
 

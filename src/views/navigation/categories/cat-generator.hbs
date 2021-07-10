@@ -1,6 +1,6 @@
 {{#each dishes}}
-<a href="/cat-1-dish-2" class="dish-bg">
-    <img src="/img/cat-images/cat-1-images/{{dish_image}}" class="dish-image">
+<a href="{{../category_number}}/{{add @index 1}}" class="dish-bg">
+    <img src="/img/cat-images/cat-{{../category_number}}-images/{{dish_image}}" class="dish-image">
     <div class="black-gradient">
         <p class="dish-title">{{dish_title}}</p>
         <p class="dish-subtitle">{{dish_sub}}</p>

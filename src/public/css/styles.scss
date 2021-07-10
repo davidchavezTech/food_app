@@ -45,13 +45,14 @@ html {
 .container{
     background-color:white;
     color: #eaeaea;
-    height: 100vh;
+    // height: 100vh;
     display:flex;
     justify-content: center;
 }.limiter{
     position:relative;
     min-width: 360px;
     max-width: 411px;
+    min-height: 640px;
     width:100%;
     overflow:hidden;
 }
